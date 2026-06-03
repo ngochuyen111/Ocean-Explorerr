@@ -1,3 +1,4 @@
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +10,26 @@ public class EnemyHealth : MonoBehaviour
     public GameObject dropItemPrefab;
     public int killScore = 1;
 
+    [Header("Hit Effect")]
+    public Color hitColor = Color.red;
+    public float flashTime = 0.15f;
+    public float jumpForce = 3f;
+
     private Animator anim;
     private bool dead;
+    private SpriteRenderer sr;
+    private Color originalColor;
+    private Rigidbody2D rb;
 
     void Start()
     {
         currentHealth = maxHealth;
         anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+
+        if (sr != null)
+            originalColor = sr.color;
 
         if (healthBar != null)
         {
@@ -29,6 +43,7 @@ public class EnemyHealth : MonoBehaviour
         if (dead) return;
 
         currentHealth -= damage;
+        Debug.Log(gameObject.name + " bị bắn, còn máu: " + currentHealth);
 
         if (healthBar != null)
             healthBar.value = currentHealth;
@@ -36,13 +51,31 @@ public class EnemyHealth : MonoBehaviour
         if (anim != null)
             anim.SetTrigger("Hurt");
 
+        StartCoroutine(HitEffect());
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
         if (currentHealth <= 0)
             Die();
+    }
+
+    IEnumerator HitEffect()
+    {
+        if (sr == null) yield break;
+
+        sr.color = hitColor;
+        yield return new WaitForSeconds(flashTime);
+        sr.color = originalColor;
     }
 
     void Die()
     {
         dead = true;
+        Debug.Log(gameObject.name + " chết!");
 
         if (ScoreManager.instance != null)
             ScoreManager.instance.AddKill(killScore);
@@ -58,9 +91,6 @@ public class EnemyHealth : MonoBehaviour
         if (dropItemPrefab != null)
             Instantiate(dropItemPrefab, transform.position + Vector3.up, Quaternion.identity);
 
-        if (anim != null)
-            anim.SetTrigger("Dead");
-
-        Destroy(gameObject, 1.2f);
+        Destroy(gameObject, 0.2f);
     }
 }
