@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -8,6 +7,17 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 7f;
     public float dashForce = 14f;
     public float dashCooldown = 1f;
+
+    [Header("Tấn công")]
+    public GameObject bubbleBulletPrefab;
+    public GameObject waveSkillPrefab;
+    public Transform shootPoint;
+    public float fireRate = 0.35f;
+
+    [Header("Năng lượng skill")]
+    public float currentEnergy = 0f;
+    public float maxEnergy = 100f;
+    public float energyGainPerHit = 10f;
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -18,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private bool facingRight = true;
     private bool canDash = true;
+    private bool isAttacking = false;
+    private float nextFireTime;
 
     void Awake()
     {
@@ -28,16 +40,26 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // A/D hoặc mũi tên trái/phải
+        // Di chuyển A/D/W/S hoặc phím mũi tên
         moveX = Input.GetAxisRaw("Horizontal");
-
-        // W/S hoặc mũi tên lên/xuống
         moveY = Input.GetAxisRaw("Vertical");
 
-        // Dash: Shift trái
+        // Dash bằng Shift trái
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
+        }
+
+        // Bắn thường bằng Space
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime && !isAttacking)
+        {
+            StartCoroutine(Shoot(false));
+        }
+
+        // Skill bằng R, cần đủ năng lượng
+        if (Input.GetKeyDown(KeyCode.R) && currentEnergy >= maxEnergy && !isAttacking)
+        {
+            StartCoroutine(Shoot(true));
         }
 
         UpdateFacing();
@@ -46,7 +68,51 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(moveX * moveSpeed, moveY * moveSpeed);
+        if (!isAttacking)
+        {
+            rb.linearVelocity = new Vector2(moveX * moveSpeed, moveY * moveSpeed);
+        }
+    }
+
+    IEnumerator Shoot(bool ultimate)
+    {
+        isAttacking = true;
+        nextFireTime = Time.time + fireRate;
+
+        if (anim != null)
+        {
+            anim.SetTrigger("Attack");
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        GameObject prefab = ultimate ? waveSkillPrefab : bubbleBulletPrefab;
+
+        if (prefab != null && shootPoint != null)
+        {
+            GameObject bullet = Instantiate(prefab, shootPoint.position, Quaternion.identity);
+
+            OceanProjectile projectile = bullet.GetComponent<OceanProjectile>();
+
+            if (projectile != null)
+            {
+                projectile.Initialize(facingRight ? 1f : -1f);
+                projectile.isUltimate = ultimate;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Thiếu prefab đạn hoặc ShootPoint trong PlayerController.");
+        }
+
+        if (ultimate)
+        {
+            currentEnergy = 0f;
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        isAttacking = false;
     }
 
     IEnumerator Dash()
@@ -95,5 +161,10 @@ public class PlayerController : MonoBehaviour
         bool isMoving = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f;
         anim.SetBool("Swim", isMoving);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
+    }
+
+    public void AddEnergy(float amount)
+    {
+        currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, maxEnergy);
     }
 }
