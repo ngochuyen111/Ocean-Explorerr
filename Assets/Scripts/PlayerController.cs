@@ -5,7 +5,10 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Di chuyển")]
     public float moveSpeed = 7f;
+
+    [Header("Dash")]
     public float dashForce = 14f;
+    public float dashTime = 0.2f;
     public float dashCooldown = 1f;
 
     [Header("Tấn công")]
@@ -28,7 +31,9 @@ public class PlayerController : MonoBehaviour
 
     private bool facingRight = true;
     private bool canDash = true;
+    private bool isDashing = false;
     private bool isAttacking = false;
+
     private float nextFireTime;
 
     void Awake()
@@ -40,23 +45,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // Di chuyển A/D/W/S hoặc phím mũi tên
         moveX = Input.GetAxisRaw("Horizontal");
         moveY = Input.GetAxisRaw("Vertical");
 
-        // Dash bằng Shift trái
         if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
         {
             StartCoroutine(Dash());
         }
 
-        // Bắn thường bằng Space
         if (Input.GetKeyDown(KeyCode.Space) && Time.time >= nextFireTime && !isAttacking)
         {
             StartCoroutine(Shoot(false));
         }
 
-        // Skill bằng R, cần đủ năng lượng
         if (Input.GetKeyDown(KeyCode.R) && currentEnergy >= maxEnergy && !isAttacking)
         {
             StartCoroutine(Shoot(true));
@@ -68,10 +69,34 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isDashing) return;
+
         if (!isAttacking)
         {
             rb.linearVelocity = new Vector2(moveX * moveSpeed, moveY * moveSpeed);
         }
+    }
+
+    IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+
+        float dashDirection = facingRight ? 1f : -1f;
+        rb.linearVelocity = new Vector2(dashDirection * dashForce, 0f);
+
+        //if (anim != null)
+        //{
+        //    anim.SetTrigger("Dash");
+        //}
+
+        yield return new WaitForSeconds(dashTime);
+
+        isDashing = false;
+
+        yield return new WaitForSeconds(dashCooldown);
+
+        canDash = true;
     }
 
     IEnumerator Shoot(bool ultimate)
@@ -86,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
-        GameObject prefab = ultimate ? waveSkillPrefab : bubbleBulletPrefab;
+        GameObject prefab = ultimate ? waveSkillPrefab : bubbleBulletPrefab; //bắn skill
 
         if (prefab != null && shootPoint != null)
         {
@@ -115,24 +140,6 @@ public class PlayerController : MonoBehaviour
         isAttacking = false;
     }
 
-    IEnumerator Dash()
-    {
-        canDash = false;
-
-        float dashDirection = facingRight ? 1f : -1f;
-        rb.linearVelocity = new Vector2(dashDirection * dashForce, rb.linearVelocity.y);
-
-        if (anim != null)
-        {
-            anim.SetTrigger("Dash");
-        }
-
-        yield return new WaitForSeconds(0.2f);
-        yield return new WaitForSeconds(dashCooldown);
-
-        canDash = true;
-    }
-
     void UpdateFacing()
     {
         if (moveX > 0 && !facingRight)
@@ -159,6 +166,7 @@ public class PlayerController : MonoBehaviour
         if (anim == null) return;
 
         bool isMoving = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f;
+
         anim.SetBool("Swim", isMoving);
         anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
     }

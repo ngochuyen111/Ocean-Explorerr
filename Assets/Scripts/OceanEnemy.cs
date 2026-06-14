@@ -54,7 +54,7 @@ public class OceanEnemy : MonoBehaviour
         }
 
         Vector2 moveDirection = direction.normalized;
-        rb.linearVelocity = moveDirection * speed;
+        rb.linearVelocity = moveDirection * speed;    
 
         FlipByDirection(moveDirection.x);
     }
@@ -67,7 +67,7 @@ public class OceanEnemy : MonoBehaviour
         targetPosition = startPosition + new Vector2(randomX, randomY);
     }
 
-    void FlipByDirection(float xDirection)
+    void FlipByDirection(float xDirection) //đổi chiều
     {
         if (Mathf.Abs(xDirection) < 0.05f) return;
 

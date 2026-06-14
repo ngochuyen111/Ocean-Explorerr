@@ -6,7 +6,7 @@ public class OceanProjectile : MonoBehaviour
     public float damage = 25f;
     public float lifeTime = 4f;
     public bool isUltimate = false;
-    public float knockbackForce = 10f;
+    public float knockbackForce = 10f; //đẩy
     public GameObject hitEffectPrefab;
 
     private Rigidbody2D rb;
@@ -55,7 +55,7 @@ public class OceanProjectile : MonoBehaviour
             OceanEnemy enemyMove = other.GetComponent<OceanEnemy>();
             if (enemyMove != null)
             {
-                enemyMove.Knockback(new Vector2(direction, 0.5f), knockbackForce);
+                enemyMove.Knockback(new Vector2(direction, 0.5f), knockbackForce);  //lùi+bật
             }
 
             PlayerController player = FindAnyObjectByType<PlayerController>();

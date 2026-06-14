@@ -438,7 +438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &145150601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,7 +506,7 @@ Transform:
   m_GameObject: {fileID: 145150600}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.92, y: -10, z: 0}
+  m_LocalPosition: {x: -2.23, y: -10, z: -2.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2416,11 +2416,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16
+      value: -3.74
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: -1.33
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3091,15 +3091,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: -3.06
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 22.8
       objectReference: {fileID: 0}
     - target: {fileID: 5809943194213612253, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3438,6 +3438,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 7
   dashForce: 14
+  dashTime: 0.2
   dashCooldown: 1
   bubbleBulletPrefab: {fileID: 6465575772158885425, guid: 2197798e0104daa4b89211ac58c99744, type: 3}
   waveSkillPrefab: {fileID: 6465575772158885425, guid: 2197798e0104daa4b89211ac58c99744, type: 3}
