@@ -9,6 +9,7 @@ public class EnemyHealth : MonoBehaviour
     public Slider healthBar;
     public GameObject dropItemPrefab;
     public int killScore = 1;
+    public float healPlayerWhenDead = 25f;
 
     [Header("Hit Effect")]
     public Color hitColor = Color.red;
@@ -77,6 +78,13 @@ public class EnemyHealth : MonoBehaviour
         dead = true;
         Debug.Log(gameObject.name + " chết!");
 
+        //Hanh
+        PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.AddHealth(healPlayerWhenDead);
+        }
+        //
         if (ScoreManager.instance != null)
             ScoreManager.instance.AddKill(killScore);
 
