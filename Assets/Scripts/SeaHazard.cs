@@ -1,16 +1,18 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SeaHazard : MonoBehaviour
 {
-    public string gameOverSceneName = "GameOver";
+    public float damage = 20f;
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
 
-        SceneManager.LoadScene(gameOverSceneName);
+        PlayerHealth health = other.GetComponent<PlayerHealth>();
+
+        if (health != null)
+        {
+            health.TakeDamage(damage);
+        }
     }
 }
-
-

@@ -22,12 +22,20 @@ public class PlayerHealth : MonoBehaviour
     private bool invincible;
     private SpriteRenderer sr;
     private Animator anim;
-
+    private Color originalColor;
     void Start()
     {
         currentHealth = maxHealth;
-        sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+
+        sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
+        anim = transform.Find("Visual").GetComponent<Animator>();
+
+        Debug.Log("SpriteRenderer tìm được là: " + (sr != null ? sr.gameObject.name : "NULL"));
+
+        if (sr != null)
+        {
+            originalColor = sr.color;
+        }
 
         if (healthSlider != null)
         {
@@ -72,17 +80,35 @@ public class PlayerHealth : MonoBehaviour
     IEnumerator InvincibleRoutine()
     {
         invincible = true;
+
         float elapsed = 0f;
+
         while (elapsed < invincibleTime)
         {
-            if (sr != null) sr.enabled = !sr.enabled;
+            if (sr != null)
+            {
+                sr.color = Color.red;
+            }
+
             yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
+
+            if (sr != null)
+            {
+                sr.color = originalColor;
+            }
+
+            yield return new WaitForSeconds(0.1f);
+
+            elapsed += 0.2f;
         }
-        if (sr != null) sr.enabled = true;
+
+        if (sr != null)
+        {
+            sr.color = originalColor;
+        }
+
         invincible = false;
     }
-
     public void Die()
     {
         PlayerPrefs.SetString("LastLevel",
