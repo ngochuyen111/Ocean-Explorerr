@@ -204,6 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 54071951}
   - component: {fileID: 54071952}
+  - component: {fileID: 54071953}
   m_Layer: 5
   m_Name: OxygenSlider
   m_TagString: Untagged
@@ -231,7 +232,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 158, y: -180}
-  m_SizeDelta: {x: 300, y: 25}
+  m_SizeDelta: {x: 120, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54071952
 MonoBehaviour:
@@ -284,6 +285,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &54071953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 54071950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d6445d4e8371344b6bf931cdbe6dba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIFollowPlayer
+  target: {fileID: 1474215393}
+  offset: {x: 0, y: 1.1, z: 0}
 --- !u!1 &109931940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1451,6 +1466,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 597953938}
   m_CullTransparentMesh: 1
+--- !u!1 &719083498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 719083500}
+  - component: {fileID: 719083499}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &719083499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719083498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52692fb0d0f5ff43b466ca932ff809f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  pearlText: {fileID: 824490549}
+  killText: {fileID: 736340366}
+  scoreText: {fileID: 109931942}
+  pearls: 0
+  kills: 0
+  score: 0
+--- !u!4 &719083500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 719083498}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.87466, y: -0.64, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &728690163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2703,7 +2768,7 @@ SpriteRenderer:
   m_Size: {x: 6.79, y: 4.53}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1046560748
 GameObject:
@@ -3019,56 +3084,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205879329}
   m_CullTransparentMesh: 1
---- !u!1 &1257038360
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1257038362}
-  - component: {fileID: 1257038361}
-  m_Layer: 0
-  m_Name: ScoreManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1257038361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257038360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52692fb0d0f5ff43b466ca932ff809f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
-  pearlText: {fileID: 0}
-  killText: {fileID: 0}
-  scoreText: {fileID: 0}
-  pearls: 0
-  kills: 0
-  score: 0
---- !u!4 &1257038362
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257038360}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.55143, y: 0, z: -8.47143}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1300724769
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3342,6 +3357,8 @@ GameObject:
   - component: {fileID: 1474215396}
   - component: {fileID: 1474215395}
   - component: {fileID: 1474215394}
+  - component: {fileID: 1474215398}
+  - component: {fileID: 1474215397}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3511,6 +3528,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1474215397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474215391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81fa7e7d412a7c44f8cf3b6e17ab4fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OxygenSystem
+  maxOxygen: 100
+  currentOxygen: 0
+  oxygenDrainPerSecond: 3
+  oxygenSlider: {fileID: 54071952}
+--- !u!114 &1474215398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474215391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b0fd38da86599348a2d66de5a21f9ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 100
+  currentHealth: 0
+  healthSlider: {fileID: 1564351397}
+  damageFlash: {fileID: 0}
+  damageColor: {r: 1, g: 0, b: 0, a: 0.45}
+  flashSmooth: 5
+  invincibleTime: 1
 --- !u!1 &1495561410
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,9 +3650,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1538876009}
   - component: {fileID: 1538876011}
-  - component: {fileID: 1538876010}
+  - component: {fileID: 1538876012}
   m_Layer: 0
-  m_Name: BackgroundFar
+  m_Name: BackgroundFar_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3614,27 +3666,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1538876008}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -964.2, y: -461, z: 0}
-  m_LocalScale: {x: 3.1, y: 3, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 10}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1009381087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1538876010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538876008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f875f8146d970214fb3249fd997805d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ParallaxBackground
-  cameraTransform: {fileID: 0}
-  parallaxEffect: 0.3
 --- !u!212 &1538876011
 SpriteRenderer:
   serializedVersion: 2
@@ -3684,16 +3722,30 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 7de9fe19920919d4f8f2cd18deb8ac77, type: 3}
+  m_Sprite: {fileID: 21300000, guid: beef581c9ac6f314baad4f689bbf88d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 6.79, y: 4.53}
+  m_DrawMode: 2
+  m_Size: {x: 100, y: 7.243535}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1538876012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538876008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f875f8146d970214fb3249fd997805d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ParallaxBackground
+  cameraTransform: {fileID: 1474215393}
+  parallaxEffect: 0.3
 --- !u!1 &1564351395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3704,6 +3756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1564351396}
   - component: {fileID: 1564351397}
+  - component: {fileID: 1564351398}
   m_Layer: 5
   m_Name: HealthSlider
   m_TagString: Untagged
@@ -3731,7 +3784,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 158, y: -160}
-  m_SizeDelta: {x: 300, y: 25}
+  m_SizeDelta: {x: 120, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1564351397
 MonoBehaviour:
@@ -3784,6 +3837,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1564351398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1564351395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d6445d4e8371344b6bf931cdbe6dba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIFollowPlayer
+  target: {fileID: 1474215393}
+  offset: {x: 0, y: 1.3, z: 0}
 --- !u!1 &1586310228
 GameObject:
   m_ObjectHideFlags: 0
@@ -4536,9 +4603,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d05baaff9d2214b8dca5c47fd8f142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 0}
-  offset: {x: 0, y: 1, z: -10}
+  target: {fileID: 1474215393}
   smoothSpeed: 5
+  offset: {x: 0, y: 1, z: -10}
 --- !u!114 &2088082389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4860,6 +4927,10 @@ PrefabInstance:
       propertyPath: currentHealth
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 6598734090432665754, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
+      propertyPath: healthBarPrefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7624996983802285819, guid: 11a4a5c6714aa134bad3f6220bd6658d, type: 3}
       propertyPath: moveRadiusX
       value: 4
@@ -4878,7 +4949,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 864062063}
   - {fileID: 1586310231}
-  - {fileID: 1257038362}
   - {fileID: 2088082392}
   - {fileID: 237701942}
   - {fileID: 1009381087}
@@ -4893,3 +4963,4 @@ SceneRoots:
   - {fileID: 1980424917}
   - {fileID: 854202529}
   - {fileID: 927424486}
+  - {fileID: 719083500}

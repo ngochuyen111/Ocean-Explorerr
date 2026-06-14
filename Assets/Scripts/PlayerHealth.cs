@@ -85,6 +85,9 @@ public class PlayerHealth : MonoBehaviour
 
     public void Die()
     {
+        PlayerPrefs.SetString("LastLevel",
+            SceneManager.GetActiveScene().name);
+
         SceneManager.LoadScene("GameOver");
     }
 }
