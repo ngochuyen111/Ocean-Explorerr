@@ -4,9 +4,10 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float maxHealth = 60f;
+    public float maxHealth = 100f;
     public float currentHealth;
     public Slider healthBar;
+    public Image healthFill;
     public GameObject dropItemPrefab;
     public int killScore = 1;
 
@@ -15,15 +16,30 @@ public class EnemyHealth : MonoBehaviour
     public float flashTime = 0.15f;
     public float jumpForce = 3f;
 
+    [Header("Health Bar Effect")]
+    public float healthSmoothSpeed = 6f;
+    public Color normalHealthColor = Color.green;
+    public Color lowHealthColor = Color.red;
+    public float lowHealthPercent = 0.3f;
+
+    [Header("Health Regen")]
+    public bool canRegen = false;
+    public float regenDelay = 3f;
+    public float regenAmountPerSecond = 5f;
+
     private Animator anim;
     private bool dead;
     private SpriteRenderer sr;
     private Color originalColor;
     private Rigidbody2D rb;
+    private float displayedHealth;
+    private float lastDamageTime;
 
     void Start()
     {
         currentHealth = maxHealth;
+        displayedHealth = maxHealth;
+
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
@@ -34,8 +50,16 @@ public class EnemyHealth : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.maxValue = maxHealth;
-            healthBar.value = currentHealth;
+            healthBar.value = displayedHealth;
         }
+
+        UpdateHealthColor();
+    }
+
+    void Update()
+    {
+        UpdateSmoothHealthBar();
+        RegenerateHealth();
     }
 
     public void TakeDamage(float damage)
@@ -43,10 +67,10 @@ public class EnemyHealth : MonoBehaviour
         if (dead) return;
 
         currentHealth -= damage;
-        Debug.Log(gameObject.name + " bị bắn, còn máu: " + currentHealth);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        lastDamageTime = Time.time;
 
-        if (healthBar != null)
-            healthBar.value = currentHealth;
+        Debug.Log(gameObject.name + " bị bắn, còn máu: " + currentHealth);
 
         if (anim != null)
             anim.SetTrigger("Hurt");
@@ -60,7 +84,43 @@ public class EnemyHealth : MonoBehaviour
         }
 
         if (currentHealth <= 0)
-            Die();
+        {
+            StartCoroutine(DieAfterHealthBarEmpty());
+        }
+    }
+
+    void UpdateSmoothHealthBar()
+    {
+        if (healthBar == null) return;
+
+        displayedHealth = Mathf.Lerp(displayedHealth, currentHealth, healthSmoothSpeed * Time.deltaTime);
+        healthBar.value = displayedHealth;
+
+        UpdateHealthColor();
+    }
+
+    void UpdateHealthColor()
+    {
+        if (healthFill == null) return;
+
+        float percent = displayedHealth / maxHealth;
+
+        if (percent <= lowHealthPercent)
+            healthFill.color = lowHealthColor;
+        else
+            healthFill.color = normalHealthColor;
+    }
+
+    void RegenerateHealth()
+    {
+        if (!canRegen) return;
+        if (dead) return;
+        if (currentHealth <= 0) return;
+        if (currentHealth >= maxHealth) return;
+        if (Time.time < lastDamageTime + regenDelay) return;
+
+        currentHealth += regenAmountPerSecond * Time.deltaTime;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
     IEnumerator HitEffect()
@@ -72,9 +132,21 @@ public class EnemyHealth : MonoBehaviour
         sr.color = originalColor;
     }
 
+    IEnumerator DieAfterHealthBarEmpty()
+    {
+        if (dead) yield break;
+        dead = true;
+
+        while (displayedHealth > 1f)
+        {
+            yield return null;
+        }
+
+        Die();
+    }
+
     void Die()
     {
-        dead = true;
         Debug.Log(gameObject.name + " chết!");
 
         if (ScoreManager.instance != null)
@@ -91,6 +163,22 @@ public class EnemyHealth : MonoBehaviour
         if (dropItemPrefab != null)
             Instantiate(dropItemPrefab, transform.position + Vector3.up, Quaternion.identity);
 
-        Destroy(gameObject, 0.2f);
+        StartCoroutine(DeathEffect());
+    }
+
+    IEnumerator DeathEffect()
+    {
+        float duration = 0.3f;
+        float elapsed = 0f;
+        Vector3 startScale = transform.localScale;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(startScale, Vector3.zero, elapsed / duration);
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }
