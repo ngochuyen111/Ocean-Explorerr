@@ -27,15 +27,11 @@ public class PlayerHealth : MonoBehaviour
     {
         currentHealth = maxHealth;
 
-        sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
-        anim = transform.Find("Visual").GetComponent<Animator>();
-
-        Debug.Log("SpriteRenderer tìm được là: " + (sr != null ? sr.gameObject.name : "NULL"));
+        sr = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
 
         if (sr != null)
-        {
             originalColor = sr.color;
-        }
 
         if (healthSlider != null)
         {
@@ -111,6 +107,8 @@ public class PlayerHealth : MonoBehaviour
     }
     public void Die()
     {
+        PlayerPrefs.SetString("LastLevel",
+        SceneManager.GetActiveScene().name);
         SceneManager.LoadScene("GameOver");
     }
 }

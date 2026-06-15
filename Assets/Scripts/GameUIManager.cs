@@ -23,7 +23,11 @@ public class GameUIManager : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        string levelName =
+            PlayerPrefs.GetString("LastLevel", "Level1");
+
+        SceneManager.LoadScene(levelName);
     }
 
     public void Menu()
