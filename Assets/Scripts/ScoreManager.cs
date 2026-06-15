@@ -47,8 +47,13 @@ public class ScoreManager : MonoBehaviour
 
     void UpdateUI()
     {
-        if (pearlText != null) pearlText.text = pearls.ToString();
-        if (killText != null) killText.text = kills.ToString();
-        if (scoreText != null) scoreText.text = score.ToString();
+        if (scoreText != null)
+            scoreText.text = "Score: " + score;
+
+        if (pearlText != null)
+            pearlText.text = "Pearls: " + pearls;
+
+        if (killText != null)
+            killText.text = "Kills: " + kills;
     }
 }
