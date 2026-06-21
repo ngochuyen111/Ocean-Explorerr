@@ -17,7 +17,7 @@ public class GameUIManager : MonoBehaviour
     public void Play()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Level1");
+        SceneManager.LoadScene("Intro");
     }
 
     public void Restart()
