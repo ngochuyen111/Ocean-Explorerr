@@ -35,6 +35,7 @@ public class GameUIManager : MonoBehaviour
 
     public void Setting()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Setting");
     }
 
