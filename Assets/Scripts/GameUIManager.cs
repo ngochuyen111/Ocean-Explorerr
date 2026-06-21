@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 public class GameUIManager : MonoBehaviour
 {
     public GameObject pausePanel;
+    public GameObject guidePanel;
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("ESC PRESSED");
             TogglePause();
         }
     }
@@ -23,10 +23,7 @@ public class GameUIManager : MonoBehaviour
     public void Restart()
     {
         Time.timeScale = 1f;
-
-        string levelName =
-            PlayerPrefs.GetString("LastLevel", "Level1");
-
+        string levelName = PlayerPrefs.GetString("LastLevel", "Level1");
         SceneManager.LoadScene(levelName);
     }
 
@@ -58,5 +55,17 @@ public class GameUIManager : MonoBehaviour
         bool active = !pausePanel.activeSelf;
         pausePanel.SetActive(active);
         Time.timeScale = active ? 0f : 1f;
+    }
+
+    public void OpenGuide()
+    {
+        if (guidePanel != null)
+            guidePanel.SetActive(true);
+    }
+
+    public void CloseGuide()
+    {
+        if (guidePanel != null)
+            guidePanel.SetActive(false);
     }
 }
