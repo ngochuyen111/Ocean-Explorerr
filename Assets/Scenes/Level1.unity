@@ -3439,6 +3439,7 @@ GameObject:
   - component: {fileID: 1474215394}
   - component: {fileID: 1474215398}
   - component: {fileID: 1474215397}
+  - component: {fileID: 1474215399}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3646,6 +3647,22 @@ MonoBehaviour:
   flashSmooth: 5
   invincibleTime: 1
   healBarSpeed: 0.4
+--- !u!114 &1474215399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474215391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23324eb0fd0d0684388293ed19fbcf4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerShipManager
+  level1Ship: {fileID: 21300000, guid: 9f776a81da2236840b7a277d0338f65e, type: 3}
+  level2Ship: {fileID: 21300000, guid: d0d0dbac0d0709e449b821fe8fd9f599, type: 3}
+  level3Ship: {fileID: 21300000, guid: bd6c96067ac3a704784428db836f5d41, type: 3}
+  level4Ship: {fileID: 21300000, guid: bdf74124598b05f4b95a1f86718e2b79, type: 3}
 --- !u!1 &1495561410
 GameObject:
   m_ObjectHideFlags: 0
@@ -4332,6 +4349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameUIManager
   pausePanel: {fileID: 1465257612}
+  guidePanel: {fileID: 0}
 --- !u!4 &1901187975
 Transform:
   m_ObjectHideFlags: 0
