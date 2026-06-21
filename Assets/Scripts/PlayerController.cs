@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        sr = GetComponent<SpriteRenderer>();
+        anim = transform.Find("Visual").GetComponent<Animator>();
+        sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
     }
 
     void Update()
