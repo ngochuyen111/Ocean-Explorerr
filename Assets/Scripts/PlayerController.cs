@@ -39,10 +39,28 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        anim = transform.Find("Visual").GetComponent<Animator>();
-        sr = transform.Find("Visual").GetComponent<SpriteRenderer>();
-    }
 
+        Transform visual = transform.Find("Visual");
+
+        if (visual == null)
+        {
+            Debug.LogError("Không tìm thấy object con tên Visual trong Player!");
+            return;
+        }
+
+        anim = visual.GetComponent<Animator>();
+        sr = visual.GetComponent<SpriteRenderer>();
+
+        if (anim == null)
+        {
+            Debug.LogError("Visual chưa có Animator!");
+        }
+
+        if (sr == null)
+        {
+            Debug.LogError("Visual chưa có SpriteRenderer!");
+        }
+    }
     void Update()
     {
         moveX = Input.GetAxisRaw("Horizontal");
@@ -168,7 +186,6 @@ public class PlayerController : MonoBehaviour
         bool isMoving = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveY) > 0.1f;
 
         anim.SetBool("Swim", isMoving);
-        anim.SetFloat("VerticalSpeed", rb.linearVelocity.y);
     }
 
     public void AddEnergy(float amount)

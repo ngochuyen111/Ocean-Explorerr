@@ -27,15 +27,28 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        sr = GetComponent<SpriteRenderer>();
-        anim = GetComponent<Animator>();
+
+        Transform visual = transform.Find("Visual");
+
+        if (visual != null)
+        {
+            sr = visual.GetComponent<SpriteRenderer>();
+            anim = visual.GetComponent<Animator>();
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy Visual trong Player!");
+        }
+
         if (sr != null)
             originalColor = sr.color;
+
         if (healthSlider != null)
         {
             healthSlider.maxValue = maxHealth;
             healthSlider.value = currentHealth;
         }
+
         UpdateHealthText();
     }
     void Update()
