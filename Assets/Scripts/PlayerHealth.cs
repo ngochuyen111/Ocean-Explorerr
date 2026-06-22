@@ -71,6 +71,15 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(InvincibleRoutine());
         if (currentHealth <= 0) Die();
     }
+
+    public void TakeDamageOverTime(float damage)
+    {
+        if (damage <= 0) return;
+        currentHealth -= damage;
+        if (healthSlider != null) healthSlider.value = currentHealth;
+        UpdateHealthText();
+        if (currentHealth <= 0) Die();
+    }
     public void AddHealth(float amount)
     {
         float oldHealth = currentHealth;
