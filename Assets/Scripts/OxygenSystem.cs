@@ -1,13 +1,15 @@
+using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OxygenSystem : MonoBehaviour
 {
     public float maxOxygen = 100f;
     public float currentOxygen;
-    public float oxygenDrainPerSecond = 3f;
+    public float oxygenDrainPerSecond = 1f;
+
     public Slider oxygenSlider;
+    public TextMeshProUGUI oxyText;
 
     private PlayerHealth health;
 
@@ -21,6 +23,8 @@ public class OxygenSystem : MonoBehaviour
             oxygenSlider.maxValue = maxOxygen;
             oxygenSlider.value = currentOxygen;
         }
+
+        UpdateUI();
     }
 
     void Update()
@@ -28,17 +32,27 @@ public class OxygenSystem : MonoBehaviour
         currentOxygen -= oxygenDrainPerSecond * Time.deltaTime;
         currentOxygen = Mathf.Clamp(currentOxygen, 0, maxOxygen);
 
-        if (oxygenSlider != null) oxygenSlider.value = currentOxygen;
+        UpdateUI();
 
         if (currentOxygen <= 0)
         {
-            if (health != null) health.Die();
-            else SceneManager.LoadScene("GameOver");
+            if (health != null)
+                health.Die();
         }
+    }
+
+    void UpdateUI()
+    {
+        if (oxygenSlider != null)
+            oxygenSlider.value = currentOxygen;
+
+        if (oxyText != null)
+            oxyText.text = $"{Mathf.CeilToInt(currentOxygen)}/{Mathf.CeilToInt(maxOxygen)}";
     }
 
     public void AddOxygen(float amount)
     {
         currentOxygen = Mathf.Clamp(currentOxygen + amount, 0, maxOxygen);
+        UpdateUI();
     }
 }
