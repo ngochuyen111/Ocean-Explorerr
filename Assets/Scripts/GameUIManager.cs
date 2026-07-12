@@ -32,7 +32,7 @@ public class GameUIManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("Menu");
     }
-
+    //Huyen
     public void Setting()
     {
         Time.timeScale = 1f;
