@@ -1,7 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class OceanEnemy : MonoBehaviour
 {
+    // Chọn loại enemy trong Inspector
+    public enum EnemyType
+    {
+        Shark,
+        Octopus,
+        Barracuda,
+        AnglerBoss
+    }
+
+    [Header("Loại Enemy")]
+    public EnemyType enemyType = EnemyType.Shark;
+
     [Header("Di chuyển tự do")]
     public float speed = 2f;
     public float moveRadiusX = 4f;
@@ -11,10 +24,9 @@ public class OceanEnemy : MonoBehaviour
 
     [Header("Đuổi Player")]
     public float detectRange = 3f;
-    public float stopChaseRange = 4.5f;
     public float chaseSpeed = 2.5f;
 
-    [Header("Tấn công")]
+    [Header("Tấn công khi chạm")]
     public float contactDamage = 15f;
     public float damageCooldown = 1f;
     public float pushPlayerForce = 1.5f;
@@ -22,135 +34,547 @@ public class OceanEnemy : MonoBehaviour
     [Header("Knockback")]
     public float knockbackTime = 0.25f;
 
+    // BẠCH TUỘC PHUN MỰC
+
+    [Header("Bạch tuộc - Phun mực")]
+    public GameObject inkProjectilePrefab;
+    public Transform inkShootPoint;
+    public float inkAttackRange = 6f;
+    public float inkCooldown = 3f;
+
+    // CÁ NHỒNG LAO NHANH
+
+    [Header("Cá nhồng - Lao nhanh")]
+    public float chargeSpeed = 9f;
+    public float chargeTime = 0.5f;
+    public float chargeCooldown = 3f;
+    public float prepareChargeTime = 0.4f;
+
+    // CÁ CẦN CÂU BOSS PHÁT SÁNG
+
+    [Header("Cá cần câu Boss - Phát sáng")]
+    public SpriteRenderer lureGlow;
+    public float glowDuration = 2f;
+    public float normalDuration = 3f;
+    public float glowingDamageMultiplier = 2f;
+    public float glowPulseSpeed = 5f;
+
+    [Header("Hiệu ứng vòng sáng")]
+    public float minGlowScale = 0.7f;
+    public float maxGlowScale = 1.2f;
+    public float minGlowAlpha = 0.25f;
+    public float maxGlowAlpha = 0.8f;
+
     private Rigidbody2D rb;
     private Transform player;
+    private SpriteRenderer spriteRenderer;
+
     private Vector2 startPosition;
     private Vector2 targetPosition;
+
     private float waitTimer;
     private float nextDamageTime;
+    private float nextSpecialTime;
+
     private bool knocked;
+    private bool usingSpecial;
+    private bool isGlowing;
+
+    private Color originalColor;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // Trường hợp SpriteRenderer nằm trong object con
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
+
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
+
+        if (enemyType == EnemyType.AnglerBoss && lureGlow == null)
+        {
+            Transform glowObject = transform.Find("LureLight");
+
+            if (glowObject != null)
+            {
+                lureGlow = glowObject.GetComponent<SpriteRenderer>();
+            }
+        }
+
+        if (lureGlow != null)
+        {
+            lureGlow.gameObject.SetActive(false);
+        }
+
         startPosition = transform.position;
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+
+        GameObject playerObject =
+            GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+
         PickNewTarget();
+
+        // Cá cần câu bắt đầu chu kỳ phát sáng
+        if (enemyType == EnemyType.AnglerBoss)
+        {
+            StartCoroutine(AnglerGlowRoutine());
+        }
+    }
+
+    void Update()
+    {
+        if (enemyType != EnemyType.AnglerBoss)
+            return;
+
+        if (lureGlow == null)
+            return;
+
+        if (isGlowing)
+        {
+            if (!lureGlow.gameObject.activeSelf)
+            {
+                lureGlow.gameObject.SetActive(true);
+            }
+
+            float pulse = Mathf.PingPong(
+                Time.time * glowPulseSpeed,
+                1f
+            );
+
+            float glowScale = Mathf.Lerp(
+                minGlowScale,
+                maxGlowScale,
+                pulse
+            );
+
+            lureGlow.transform.localScale =
+                new Vector3(
+                    glowScale,
+                    glowScale,
+                    1f
+                );
+
+            Color glowCurrentColor =
+                lureGlow.color;
+
+            glowCurrentColor.a =
+                Mathf.Lerp(
+                    minGlowAlpha,
+                    maxGlowAlpha,
+                    pulse
+                );
+
+            lureGlow.color =
+                glowCurrentColor;
+        }
+        else
+        {
+            if (lureGlow.gameObject.activeSelf)
+            {
+                lureGlow.gameObject.SetActive(false);
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        if (rb == null || knocked) return;
+        if (rb == null)
+            return;
 
-        if (player != null)
+        if (knocked || usingSpecial)
+            return;
+
+        if (player == null)
         {
-            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+            MoveAround();
+            return;
+        }
 
-            if (distanceToPlayer <= detectRange)
+        float distanceToPlayer =
+            Vector2.Distance(
+                transform.position,
+                player.position
+            );
+
+        // Bạch tuộc phun mực khi Player vào tầm
+        if (enemyType == EnemyType.Octopus)
+        {
+            if (distanceToPlayer <= inkAttackRange &&
+                Time.time >= nextSpecialTime)
             {
-                ChasePlayer();
+                ShootInk();
                 return;
             }
+        }
+
+        // Cá nhồng lao nhanh khi Player vào tầm
+        if (enemyType == EnemyType.Barracuda)
+        {
+            if (distanceToPlayer <= detectRange &&
+                Time.time >= nextSpecialTime)
+            {
+                StartCoroutine(ChargePlayer());
+                return;
+            }
+        }
+
+        // Các enemy đều có thể đuổi Player
+        if (distanceToPlayer <= detectRange)
+        {
+            ChasePlayer();
+            return;
         }
 
         MoveAround();
     }
 
+    // DI CHUYỂN CHUNG
+
+    void ChasePlayer()
+    {
+        if (player == null)
+            return;
+
+        Vector2 direction =
+            ((Vector2)player.position - rb.position).normalized;
+
+        rb.linearVelocity =
+            direction * chaseSpeed;
+
+        FlipByDirection(direction.x);
+    }
+
     void MoveAround()
     {
-        if (waitTimer > 0)
+        if (waitTimer > 0f)
         {
             waitTimer -= Time.fixedDeltaTime;
             rb.linearVelocity = Vector2.zero;
             return;
         }
 
-        Vector2 direction = targetPosition - rb.position;
+        Vector2 direction =
+            targetPosition - rb.position;
 
         if (direction.magnitude <= arriveDistance)
         {
             rb.linearVelocity = Vector2.zero;
+
             waitTimer = waitTimeAtPoint;
+
             PickNewTarget();
+
             return;
         }
 
-        Vector2 moveDirection = direction.normalized;
-        rb.linearVelocity = moveDirection * speed;
-        FlipByDirection(moveDirection.x);
-    }
+        Vector2 moveDirection =
+            direction.normalized;
 
-    void ChasePlayer()
-    {
-        Vector2 direction = ((Vector2)player.position - rb.position).normalized;
-        rb.linearVelocity = direction * chaseSpeed;
-        FlipByDirection(direction.x);
+        rb.linearVelocity =
+            moveDirection * speed;
+
+        FlipByDirection(moveDirection.x);
     }
 
     void PickNewTarget()
     {
-        float randomX = Random.Range(-moveRadiusX, moveRadiusX);
-        float randomY = Random.Range(-moveRadiusY, moveRadiusY);
-        targetPosition = startPosition + new Vector2(randomX, randomY);
+        float randomX =
+            Random.Range(
+                -moveRadiusX,
+                moveRadiusX
+            );
+
+        float randomY =
+            Random.Range(
+                -moveRadiusY,
+                moveRadiusY
+            );
+
+        targetPosition =
+            startPosition +
+            new Vector2(randomX, randomY);
     }
 
     void FlipByDirection(float xDirection)
     {
-        if (Mathf.Abs(xDirection) < 0.05f) return;
+        if (Mathf.Abs(xDirection) < 0.05f)
+            return;
 
-        Vector3 scale = transform.localScale;
+        Vector3 scale =
+            transform.localScale;
 
         if (xDirection > 0)
-            scale.x = Mathf.Abs(scale.x);
+        {
+            scale.x =
+                Mathf.Abs(scale.x);
+        }
         else
-            scale.x = -Mathf.Abs(scale.x);
+        {
+            scale.x =
+                -Mathf.Abs(scale.x);
+        }
 
         transform.localScale = scale;
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    // BẠCH TUỘC PHUN MỰC
+
+    void ShootInk()
     {
-        DamagePlayer(collision.collider);
+        if (inkProjectilePrefab == null)
+        {
+            Debug.LogWarning(
+                gameObject.name +
+                " chưa gắn Ink Projectile Prefab!"
+            );
+
+            return;
+        }
+
+        if (player == null)
+            return;
+
+        nextSpecialTime =
+            Time.time + inkCooldown;
+
+        rb.linearVelocity =
+            Vector2.zero;
+
+        Vector3 shootPosition =
+            transform.position;
+
+        if (inkShootPoint != null)
+        {
+            shootPosition =
+                inkShootPoint.position;
+        }
+
+        Vector2 direction =
+            ((Vector2)player.position -
+             (Vector2)shootPosition).normalized;
+
+        GameObject ink =
+            Instantiate(
+                inkProjectilePrefab,
+                shootPosition,
+                Quaternion.identity
+            );
+
+        InkProjectile projectile =
+            ink.GetComponent<InkProjectile>();
+
+        if (projectile != null)
+        {
+            projectile.Initialize(direction);
+        }
+
+        FlipByDirection(direction.x);
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    // CÁ NHỒNG LAO VỀ PLAYER
+
+    IEnumerator ChargePlayer()
+    {
+        if (player == null)
+            yield break;
+
+        usingSpecial = true;
+
+        nextSpecialTime =
+            Time.time + chargeCooldown;
+
+        // Dừng lại báo hiệu trước khi lao
+        rb.linearVelocity =
+            Vector2.zero;
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color =
+                new Color(1f, 0.5f, 0.5f, 1f);
+        }
+
+        yield return
+            new WaitForSeconds(
+                prepareChargeTime
+            );
+
+        if (player == null)
+        {
+            usingSpecial = false;
+            yield break;
+        }
+
+        Vector2 chargeDirection =
+            ((Vector2)player.position -
+             rb.position).normalized;
+
+        FlipByDirection(chargeDirection.x);
+
+        rb.linearVelocity =
+            chargeDirection * chargeSpeed;
+
+        yield return
+            new WaitForSeconds(chargeTime);
+
+        rb.linearVelocity =
+            Vector2.zero;
+
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.color =
+                originalColor;
+        }
+
+        usingSpecial = false;
+    }
+
+    // CÁ CẦN CÂU PHÁT SÁNG
+
+    IEnumerator AnglerGlowRoutine()
+    {
+        while (true)
+        {
+            isGlowing = false;
+
+            if (lureGlow != null)
+            {
+                lureGlow.gameObject.SetActive(false);
+            }
+
+            yield return
+                new WaitForSeconds(
+                    normalDuration
+                );
+
+            isGlowing = true;
+
+            if (lureGlow != null)
+            {
+                lureGlow.gameObject.SetActive(true);
+            }
+
+            yield return
+                new WaitForSeconds(
+                    glowDuration
+                );
+        }
+    }
+
+    // VA CHẠM PLAYER
+
+    void OnCollisionStay2D(
+        Collision2D collision)
+    {
+        DamagePlayer(
+            collision.collider
+        );
+    }
+
+    void OnTriggerStay2D(
+        Collider2D other)
     {
         DamagePlayer(other);
     }
 
-    void DamagePlayer(Collider2D other)
+    void DamagePlayer(
+        Collider2D other)
     {
-        if (!other.CompareTag("Player")) return;
-        if (Time.time < nextDamageTime) return;
+        if (!other.CompareTag("Player"))
+            return;
 
-        PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+        if (Time.time < nextDamageTime)
+            return;
 
-        if (playerHealth != null)
+        PlayerHealth playerHealth =
+            other.GetComponent<PlayerHealth>();
+
+        if (playerHealth == null)
+            return;
+
+        float finalDamage =
+            contactDamage;
+
+        // Cá cần câu đang sáng gây gấp đôi damage
+        if (enemyType == EnemyType.AnglerBoss &&
+            isGlowing)
         {
-            playerHealth.TakeDamage(contactDamage);
-            PushPlayer(other);
-            nextDamageTime = Time.time + damageCooldown;
+            finalDamage =
+                contactDamage *
+                glowingDamageMultiplier;
         }
+
+        playerHealth.TakeDamage(
+            finalDamage
+        );
+
+        PushPlayer(other);
+
+        nextDamageTime =
+            Time.time + damageCooldown;
     }
 
     void PushPlayer(Collider2D other)
     {
-        Rigidbody2D playerRb = other.GetComponent<Rigidbody2D>();
-        if (playerRb == null) return;
+        Rigidbody2D playerRb =
+            other.GetComponent<Rigidbody2D>();
 
-        Vector2 pushDir = (other.transform.position - transform.position).normalized;
-        playerRb.linearVelocity = Vector2.zero;
-        playerRb.AddForce(pushDir * pushPlayerForce, ForceMode2D.Impulse);
+        if (playerRb == null)
+            return;
+
+        Vector2 pushDirection =
+            (other.transform.position -
+             transform.position).normalized;
+
+        playerRb.linearVelocity =
+            Vector2.zero;
+
+        playerRb.AddForce(
+            pushDirection * pushPlayerForce,
+            ForceMode2D.Impulse
+        );
     }
 
-    public void Knockback(Vector2 dir, float force)
+    // ENEMY BỊ ĐẠN ĐẨY LÙI
+
+    public void Knockback(
+        Vector2 direction,
+        float force)
     {
-        if (rb == null) return;
+        if (rb == null)
+            return;
+
+        // Boss khó bị knockback hơn
+        if (enemyType == EnemyType.AnglerBoss)
+        {
+            force *= 0.35f;
+        }
 
         knocked = true;
-        rb.linearVelocity = Vector2.zero;
-        rb.AddForce(dir.normalized * force, ForceMode2D.Impulse);
-        Invoke(nameof(EndKnockback), knockbackTime);
+
+        rb.linearVelocity =
+            Vector2.zero;
+
+        rb.AddForce(
+            direction.normalized * force,
+            ForceMode2D.Impulse
+        );
+
+        Invoke(
+            nameof(EndKnockback),
+            knockbackTime
+        );
     }
 
     void EndKnockback()
