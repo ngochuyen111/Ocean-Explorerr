@@ -57,6 +57,18 @@ public class EnemyHealth : MonoBehaviour
         UpdateHealthColor();
     }
 
+    void UpdateHealthColor()
+    {
+        if (healthFill == null) return;
+
+        float percent = displayedHealth / maxHealth;
+
+        if (percent <= lowHealthPercent)
+            healthFill.color = lowHealthColor;
+        else
+            healthFill.color = normalHealthColor;
+    }
+
     void Update()
     {
         UpdateSmoothHealthBar();
@@ -70,8 +82,6 @@ public class EnemyHealth : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         lastDamageTime = Time.time;
-
-        Debug.Log(gameObject.name + " bị bắn, còn máu: " + currentHealth);
 
         if (anim != null)
             anim.SetTrigger("Hurt");
@@ -100,17 +110,6 @@ public class EnemyHealth : MonoBehaviour
         UpdateHealthColor();
     }
 
-    void UpdateHealthColor()
-    {
-        if (healthFill == null) return;
-
-        float percent = displayedHealth / maxHealth;
-
-        if (percent <= lowHealthPercent)
-            healthFill.color = lowHealthColor;
-        else
-            healthFill.color = normalHealthColor;
-    }
 
     void RegenerateHealth()
     {
