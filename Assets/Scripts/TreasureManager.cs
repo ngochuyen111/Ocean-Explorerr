@@ -13,8 +13,10 @@ public class TreasureManager : MonoBehaviour
     [Header("Random Spawn Area")]
     public float spawnAheadMin = 8f;
     public float spawnAheadMax = 18f;
-    public float yMin = -3f;
-    public float yMax = 3f;
+
+    [Header("Bottom Spawn")]
+    public float bottomMinY = -4.8f;
+    public float bottomMaxY = -3.8f;
 
     [Header("Trail")]
     public TreasureTrailArrow treasureTrail;
@@ -47,7 +49,7 @@ public class TreasureManager : MonoBehaviour
         treasureSpawned = true;
 
         float x = cameraTransform.position.x + Random.Range(spawnAheadMin, spawnAheadMax);
-        float y = Random.Range(yMin, yMax);
+        float y = Random.Range(bottomMinY, bottomMaxY);
 
         Vector3 spawnPos = new Vector3(x, y, 0f);
 
