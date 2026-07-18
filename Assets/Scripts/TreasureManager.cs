@@ -8,7 +8,7 @@ public class TreasureManager : MonoBehaviour
     public Transform cameraTransform;
 
     [Header("Spawn Condition")]
-    public int pearlsRequired = 10;
+    public int pearlsRequired = 30;
 
     [Header("Random Spawn Area")]
     public float spawnAheadMin = 8f;

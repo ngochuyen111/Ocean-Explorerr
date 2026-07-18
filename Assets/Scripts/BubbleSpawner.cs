@@ -30,7 +30,7 @@ public class BubbleSpawner : MonoBehaviour
         float randomX = transform.position.x + Random.Range(-spawnWidth / 2f, spawnWidth / 2f);
         Vector3 spawnPos = new Vector3(randomX, transform.position.y, 0f);
 
-        GameObject bubble = Instantiate(bubblePrefab, spawnPos, Quaternion.identity);
+        GameObject bubble = Instantiate(bubblePrefab, spawnPos, Quaternion.identity, transform);
 
         // Kích thước random
         float size = Random.Range(sizeRange.x, sizeRange.y);

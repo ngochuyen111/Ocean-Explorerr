@@ -83,7 +83,7 @@ public class PearlSpawner : MonoBehaviour
 
             float scale = Random.Range(minScale, maxScale);
             GameObject prefab = pearlPrefabs[Random.Range(0, pearlPrefabs.Length)];
-            GameObject pearl = Instantiate(prefab, pos.Value, Quaternion.identity);
+            GameObject pearl = Instantiate(prefab, pos.Value, Quaternion.identity, transform);
             pearl.transform.localScale = Vector3.one * scale;
 
             // Pearl to hoi nhieu mau hon, pearl nho hoi it hon

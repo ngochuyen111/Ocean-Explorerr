@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TreasurePickup : MonoBehaviour
 {
@@ -10,35 +8,73 @@ public class TreasurePickup : MonoBehaviour
     public TextMeshProUGUI storyText;
 
     [TextArea(2, 4)]
-    public string storyLine = "You found the hidden treasure! The submarine continues deeper into the ocean...";
+    public string storyLine =
+        "You found the hidden treasure! " +
+        "The submarine continues deeper into the ocean...";
 
-    [Header("Scene")]
-    public string nextSceneName = "Level2";
-    public float delayBeforeLoad = 3f;
+    [Header("Next Scene")]
+    [SerializeField] private string nextSceneName = "Level2";
 
-    private bool collected = false;
+    private bool collected;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collected) return;
-        if (!other.CompareTag("Player")) return;
-
-        collected = true;
-
-        Debug.Log("TOUCH TREASURE");
-
-        if (StoryManager.Instance == null)
+        if (collected)
         {
-            Debug.LogError("StoryManager.Instance NULL");
             return;
         }
 
-        StoryManager.Instance.ShowTreasureStory(nextSceneName);
-    }
+        if (!other.CompareTag("Player"))
+        {
+            return;
+        }
 
-    IEnumerator ShowStoryAndLoad()
-    {
+        if (StoryManager.Instance == null)
+        {
+            Debug.LogError(
+                "TreasurePickup: StoryManager.Instance is null."
+            );
+
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(nextSceneName))
+        {
+            Debug.LogError(
+                "TreasurePickup: Next Scene Name is empty."
+            );
+
+            return;
+        }
+
+        collected = true;
+
+        // Ngăn Player kích hoạt Treasure nhiều lần.
+        Collider2D treasureCollider = GetComponent<Collider2D>();
+
+        if (treasureCollider != null)
+        {
+            treasureCollider.enabled = false;
+        }
+
+        // Lưu điểm cuối màn và màn tiếp theo.
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.SaveCheckpoint(nextSceneName);
+        }
+        else
+        {
+            Debug.LogWarning(
+                "TreasurePickup: ScoreManager was not found."
+            );
+        }
+
+        Debug.Log(
+            "Treasure collected. Checkpoint saved for: " +
+            nextSceneName
+        );
+
+        // StoryManager sẽ hiển thị story rồi chuyển Scene.
         StoryManager.Instance.ShowTreasureStory(nextSceneName);
-        yield return null;
     }
 }
