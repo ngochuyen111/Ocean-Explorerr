@@ -729,7 +729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureTrailArrow
   player: {fileID: 1474215393}
-  target: {fileID: 5174376026922226745, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
+  target: {fileID: 5174376026922226745, guid: cbeac548757f5fd43abef4aeb8b936f9, type: 3}
   dashDotPrefab: {fileID: 7940783206411924512, guid: 51142a42101724b449e6cbc746748b02, type: 3}
   dotSpacing: 0.5
   startDistanceFromPlayer: 0.8
@@ -983,12 +983,12 @@ RectTransform:
   - {fileID: 109931941}
   - {fileID: 824490548}
   - {fileID: 1495561411}
-  - {fileID: 1465257613}
   - {fileID: 1564351396}
   - {fileID: 54071951}
   - {fileID: 1695144581}
   - {fileID: 769252012}
   - {fileID: 1311700437}
+  - {fileID: 1465257613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3711,7 +3711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fa7e7d412a7c44f8cf3b6e17ab4fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenSystem
-  maxOxygen: 500
+  maxOxygen: 100
   currentOxygen: 0
   oxygenDrainPerSecond: 1
   oxygenSlider: {fileID: 54071952}
@@ -4521,7 +4521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ee1762eee1b2640a84495d262da58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureManager
-  treasurePrefab: {fileID: 2890072081356485200, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
+  treasurePrefab: {fileID: 2890072081356485200, guid: cbeac548757f5fd43abef4aeb8b936f9, type: 3}
   player: {fileID: 1474215393}
   cameraTransform: {fileID: 2088082392}
   pearlsRequired: 20
@@ -4926,7 +4926,7 @@ MonoBehaviour:
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
   m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
+  m_overrideHtmlColors: 1
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
