@@ -3145,7 +3145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   pearlText: {fileID: 824490549}
-  killText: {fileID: 736340366}
+  killText: {fileID: 0}
   scoreText: {fileID: 109931942}
   pearls: 0
   kills: 0
@@ -3182,7 +3182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &736340365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5450,7 +5450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d6445d4e8371344b6bf931cdbe6dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIFollowPlayer
-  target: {fileID: 0}
+  target: {fileID: 1474215393}
   offset: {x: 0, y: 1.1, z: 0}
 --- !u!114 &1140498833
 MonoBehaviour:
@@ -6728,9 +6728,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OxygenSystem
   maxOxygen: 100
   currentOxygen: 0
-  oxygenDrainPerSecond: 3
-  oxygenSlider: {fileID: 0}
-  oxyText: {fileID: 0}
+  oxygenDrainPerSecond: 1
+  oxygenSlider: {fileID: 1140498833}
+  oxyText: {fileID: 2122727941}
 --- !u!114 &1474215398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6745,8 +6745,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
   maxHealth: 100
   currentHealth: 0
-  healthSlider: {fileID: 0}
-  healthText: {fileID: 0}
+  healthSlider: {fileID: 1533993127}
+  healthText: {fileID: 1918060912}
   damageFlash: {fileID: 0}
   damageColor: {r: 1, g: 0, b: 0, a: 0.45}
   flashSmooth: 5
@@ -7064,7 +7064,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d6445d4e8371344b6bf931cdbe6dba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIFollowPlayer
-  target: {fileID: 0}
+  target: {fileID: 1474215393}
   offset: {x: 0, y: 1.3, z: 0}
 --- !u!114 &1533993127
 MonoBehaviour:
