@@ -59,7 +59,11 @@ public class GameUIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // Không gọi SaveCheckpoint hoặc SaveGame ở đây.
+        if (MusicManager.Instance != null)
+        {
+            Destroy(MusicManager.Instance.gameObject);
+        }
+
         SceneManager.LoadScene("Menu");
     }
 
