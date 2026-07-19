@@ -437,6 +437,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109931940}
   m_CullTransparentMesh: 1
+--- !u!1 &154117922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 154117924}
+  - component: {fileID: 154117923}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &154117923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154117922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52692fb0d0f5ff43b466ca932ff809f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  pearlText: {fileID: 0}
+  killText: {fileID: 0}
+  scoreText: {fileID: 0}
+  pearls: 0
+  kills: 0
+  score: 0
+--- !u!4 &154117924
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154117922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.87466, y: -0.64, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &210058356
 GameObject:
   m_ObjectHideFlags: 0
@@ -811,10 +861,10 @@ RectTransform:
   - {fileID: 824490548}
   - {fileID: 736340365}
   - {fileID: 1495561411}
-  - {fileID: 1465257613}
   - {fileID: 55359311}
   - {fileID: 237432018}
   - {fileID: 1616350847}
+  - {fileID: 1465257613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3509,9 +3559,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "B\u1EA1n \u0111\xE3 t\xECm th\u1EA5y kho b\xE1u \u1EA9n gi\u1EA5u!\n\nM\u1ED9t
-    con \u0111\u01B0\u1EDDng m\u1EDBi d\u1EABn \u0111\u1EBFn \u0111\u1EA1i d\u01B0\u01A1ng
-    s\xE2u th\u1EB3m \u0111\xE3 m\u1EDF ra..."
+  m_text: "B\u1EA1n \u0111\xE3 t\xECm th\u1EA5y kho b\xE1u th\u1EE9 hai!\n\nT\xEDn
+    hi\u1EC7u b\xED \u1EA9n t\u1EEB v\xF9ng bi\u1EC3n s\xE2u h\u01A1n v\u1EEBa \u0111\u01B0\u1EE3c
+    ph\xE1t hi\u1EC7n.\nCu\u1ED9c h\xE0nh tr\xECnh ti\u1EBFp t\u1EE5c..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 790ebb6883f658541b25490215e3ae2b, type: 2}
   m_sharedMaterial: {fileID: -6797810510705765534, guid: 790ebb6883f658541b25490215e3ae2b, type: 2}
@@ -4617,7 +4667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ee1762eee1b2640a84495d262da58c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureManager
-  treasurePrefab: {fileID: 2890072081356485200, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
+  treasurePrefab: {fileID: 2890072081356485200, guid: e55011f3aaa66b34ca6a1d95bed1b429, type: 3}
   player: {fileID: 1474215393}
   cameraTransform: {fileID: 2088082392}
   pearlsRequired: 30
@@ -4900,7 +4950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureTrailArrow
   player: {fileID: 1474215393}
-  target: {fileID: 5174376026922226745, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
+  target: {fileID: 5174376026922226745, guid: e55011f3aaa66b34ca6a1d95bed1b429, type: 3}
   dashDotPrefab: {fileID: 7940783206411924512, guid: 51142a42101724b449e6cbc746748b02, type: 3}
   dotSpacing: 0.5
   startDistanceFromPlayer: 0.8
@@ -5374,3 +5424,4 @@ SceneRoots:
   - {fileID: 1746218064}
   - {fileID: 252975584}
   - {fileID: 2063072513}
+  - {fileID: 154117924}
