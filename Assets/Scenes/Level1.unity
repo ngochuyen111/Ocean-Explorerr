@@ -3705,7 +3705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fa7e7d412a7c44f8cf3b6e17ab4fe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OxygenSystem
-  maxOxygen: 100
+  maxOxygen: 500
   currentOxygen: 0
   oxygenDrainPerSecond: 1
   oxygenSlider: {fileID: 54071952}
