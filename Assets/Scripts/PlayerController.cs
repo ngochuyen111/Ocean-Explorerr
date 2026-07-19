@@ -122,6 +122,12 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
         nextFireTime = Time.time + fireRate;
 
+        //huyen
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayShoot();
+        }
+
         if (anim != null)
         {
             anim.SetTrigger("Attack");
