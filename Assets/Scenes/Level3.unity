@@ -3628,7 +3628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3753b5c877794924b80302882cf8fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 7
+  moveSpeed: 10
   dashForce: 14
   dashTime: 0.2
   dashCooldown: 1
@@ -3732,7 +3732,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fd38da86599348a2d66de5a21f9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 100
+  maxHealth: 150
   currentHealth: 0
   healthSlider: {fileID: 454174910}
   healthText: {fileID: 412871831}

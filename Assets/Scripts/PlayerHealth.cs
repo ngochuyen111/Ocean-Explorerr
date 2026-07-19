@@ -8,6 +8,11 @@ public class PlayerHealth : MonoBehaviour
     [Header("Máu")]
     public float maxHealth = 100f;
     public float currentHealth;
+    //Hanh update level3
+    private static float savedHealth;
+    private static float savedMaxHealth;
+    private static bool hasSavedHealth = false;
+    //
     [Header("UI")]
     public Slider healthSlider;
     public TMP_Text healthText; // hiện số máu dạng "70/100"
@@ -26,7 +31,39 @@ public class PlayerHealth : MonoBehaviour
     private Coroutine healBarCoroutine;
     void Start()
     {
-        currentHealth = maxHealth;
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        // Vào Level 1 thì bắt đầu game mới và hồi đầy máu
+        if (currentScene == "Level1")
+        {
+            currentHealth = maxHealth;
+
+            savedHealth = currentHealth;
+            savedMaxHealth = maxHealth;
+            hasSavedHealth = true;
+        }
+        // Sang level mới thì lấy máu cũ cộng phần Max Health được tăng thêm
+        else if (hasSavedHealth)
+        {
+            float increasedHealth = Mathf.Max(0f, maxHealth - savedMaxHealth);
+
+            currentHealth = Mathf.Clamp(
+                savedHealth + increasedHealth,
+                0f,
+                maxHealth
+            );
+
+            savedHealth = currentHealth;
+            savedMaxHealth = maxHealth;
+        }
+        // Trường hợp mở trực tiếp Level 2, 3 hoặc 4 để kiểm tra
+        else
+        {
+            currentHealth = maxHealth;
+            savedHealth = currentHealth;
+            savedMaxHealth = maxHealth;
+            hasSavedHealth = true;
+        }
 
         Transform visual = transform.Find("Visual");
 
@@ -63,7 +100,12 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (invincible || damage <= 0) return;
+        //update level 3
         currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        savedHealth = currentHealth;
+        savedMaxHealth = maxHealth;
+        //
         damaged = true;
         if (healthSlider != null) healthSlider.value = currentHealth;
         UpdateHealthText();
@@ -75,15 +117,27 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamageOverTime(float damage)
     {
         if (damage <= 0) return;
+
         currentHealth -= damage;
-        if (healthSlider != null) healthSlider.value = currentHealth;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+
+        savedHealth = currentHealth;
+        savedMaxHealth = maxHealth;
+
+        if (healthSlider != null)
+            healthSlider.value = currentHealth;
+
         UpdateHealthText();
-        if (currentHealth <= 0) Die();
+
+        if (currentHealth <= 0)
+            Die();
     }
     public void AddHealth(float amount)
     {
         float oldHealth = currentHealth;
         currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        savedHealth = currentHealth;
+        savedMaxHealth = maxHealth;
 
         // DÒNG DEBUG - sẽ xóa sau khi xác nhận hoạt động đúng
         Debug.Log($"[PlayerHealth] AddHealth({amount}): {oldHealth} -> {currentHealth} | healthSlider null? {healthSlider == null}");
@@ -141,8 +195,15 @@ public class PlayerHealth : MonoBehaviour
     }
     public void Die()
     {
-        PlayerPrefs.SetString("LastLevel",
-        SceneManager.GetActiveScene().name);
+        hasSavedHealth = false;
+        savedHealth = 0f;
+        savedMaxHealth = 0f;
+
+        PlayerPrefs.SetString(
+            "LastLevel",
+            SceneManager.GetActiveScene().name
+        );
+
         SceneManager.LoadScene("GameOver");
     }
 }
