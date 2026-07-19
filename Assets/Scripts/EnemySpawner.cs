@@ -10,11 +10,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
 
     [Header("Spawn Settings")]
-    [SerializeField] private float spawnInterval = 5f;
+    [SerializeField] private float spawnInterval = 2f;
     [SerializeField] private float spawnAheadDistance = 15f;
-    [SerializeField] private float yMin = -3f;
-    [SerializeField] private float yMax = 3f;
-    [SerializeField] private int maxEnemies = 10;
+    [SerializeField] private float xMin = -20f;
+    [SerializeField] private float xMax = 80f;
+    [SerializeField] private float yMin = -4f;
+    [SerializeField] private float yMax = 4f;
+    [SerializeField] private int maxEnemies = 15;
 
     private void Start()
     {
@@ -51,9 +53,12 @@ public class EnemySpawner : MonoBehaviour
         GameObject selectedPrefab =
             enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
 
+        float randomX = Random.Range(xMin, xMax);
+        float randomY = Random.Range(yMin, yMax);
+
         Vector3 spawnPosition = new Vector3(
-            cameraTransform.position.x + spawnAheadDistance,
-            Random.Range(yMin, yMax),
+            randomX,
+            randomY,
             0f
         );
 
