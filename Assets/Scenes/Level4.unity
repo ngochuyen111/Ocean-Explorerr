@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58a826443b49b2a4a816ae441eaf996a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureTrailArrow
-  player: {fileID: 0}
+  player: {fileID: 1474215393}
   target: {fileID: 5174376026922226745, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
   dashDotPrefab: {fileID: 7940783206411924512, guid: 51142a42101724b449e6cbc746748b02, type: 3}
   dotSpacing: 0.5
@@ -613,10 +613,10 @@ RectTransform:
   - {fileID: 824490548}
   - {fileID: 736340365}
   - {fileID: 1495561411}
-  - {fileID: 1465257613}
   - {fileID: 1140498831}
   - {fileID: 1533993125}
   - {fileID: 1060502950}
+  - {fileID: 1465257613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2142,8 +2142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967bc8b2825e6f445b5de29529c040c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
-  storyPanel: {fileID: 0}
-  storyText: {fileID: 0}
+  storyPanel: {fileID: 1060502949}
+  storyText: {fileID: 1315400195}
 --- !u!4 &989076850
 Transform:
   m_ObjectHideFlags: 0
@@ -2420,8 +2420,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasureManager
   treasurePrefab: {fileID: 2890072081356485200, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
-  player: {fileID: 0}
-  cameraTransform: {fileID: 0}
+  player: {fileID: 1474215393}
+  cameraTransform: {fileID: 2088082392}
   pearlsRequired: 50
   spawnAheadMin: 8
   spawnAheadMax: 18
@@ -2863,9 +2863,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "B\u1EA1n \u0111\xE3 t\xECm th\u1EA5y kho b\xE1u \u1EA9n gi\u1EA5u!\n\nM\u1ED9t
-    con \u0111\u01B0\u1EDDng m\u1EDBi d\u1EABn \u0111\u1EBFn \u0111\u1EA1i d\u01B0\u01A1ng
-    s\xE2u th\u1EB3m \u0111\xE3 m\u1EDF ra..."
+  m_text: "B\u1EA1n \u0111\xE3 t\xECm th\u1EA5y kho b\xE1u huy\u1EC1n tho\u1EA1i!\n\nSau
+    h\xE0nh tr\xECnh v\u01B0\u1EE3t qua \u0111\u1EA1i d\u01B0\u01A1ng \u0111\u1EA7y
+    nguy hi\u1EC3m,\nchi\u1EBFc t\xE0u ng\u1EA7m cu\u1ED1i c\xF9ng \u0111\xE3 ho\xE0n
+    th\xE0nh s\u1EE9 m\u1EC7nh.\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 790ebb6883f658541b25490215e3ae2b, type: 2}
   m_sharedMaterial: {fileID: -6797810510705765534, guid: 790ebb6883f658541b25490215e3ae2b, type: 2}
@@ -3193,7 +3194,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465257612}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4061,6 +4062,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1598079695
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1598079697}
+  - component: {fileID: 1598079696}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1598079696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598079695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f52692fb0d0f5ff43b466ca932ff809f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
+  pearlText: {fileID: 0}
+  killText: {fileID: 0}
+  scoreText: {fileID: 0}
+  pearls: 0
+  kills: 0
+  score: 0
+--- !u!4 &1598079697
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598079695}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.87466, y: -0.64, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1640008414
 GameObject:
   m_ObjectHideFlags: 0
@@ -5378,3 +5429,4 @@ SceneRoots:
   - {fileID: 1047323938}
   - {fileID: 989076850}
   - {fileID: 9289072}
+  - {fileID: 1598079697}

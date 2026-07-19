@@ -15,7 +15,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    // Bắt đầu game mới
+    // Chơi game mới từ Intro.
     public void Play()
     {
         Time.timeScale = 1f;
@@ -28,21 +28,91 @@ public class GameUIManager : MonoBehaviour
         SceneManager.LoadScene("Intro");
     }
 
-    // Chơi lại từ checkpoint gần nhất
+    // Restart đúng checkpoint gần nhất.
     public void Restart()
     {
         Time.timeScale = 1f;
 
         if (ScoreManager.instance == null)
         {
-            Debug.LogWarning("ScoreManager was not found.");
+            Debug.LogError(
+                "Không tìm thấy ScoreManager."
+            );
+
+            return;
+        }
+
+        // Nếu chưa có checkpoint thì bắt đầu lại Level1.
+        if (!ScoreManager.instance.HasSavedGame())
+        {
+            ScoreManager.instance.StartNewGame();
+        }
+        else
+        {
+            // Khôi phục pearl, kill và score tại đầu màn.
+            ScoreManager.instance.LoadCheckpoint();
+        }
+
+        // Level và điểm đều lấy từ cùng một checkpoint.
+        string levelToRestart =
+            ScoreManager.instance.GetSavedLevel();
+
+        if (!Application.CanStreamedLevelBeLoaded(
+                levelToRestart
+            ))
+        {
+            Debug.LogError(
+                "Không tìm thấy Scene: " +
+                levelToRestart
+            );
+
+            return;
+        }
+
+        Debug.Log(
+            "Restart checkpoint:" +
+            "\nLevel: " + levelToRestart +
+            "\nPearls: " + ScoreManager.instance.pearls +
+            "\nKills: " + ScoreManager.instance.kills +
+            "\nScore: " + ScoreManager.instance.score
+        );
+
+        SceneManager.LoadScene(levelToRestart);
+    }
+
+    // Xóa tiến trình và bắt đầu Level1.
+    public void ResetGame()
+    {
+        Time.timeScale = 1f;
+
+        if (ScoreManager.instance != null)
+        {
+            ScoreManager.instance.StartNewGame();
+        }
+
+        SceneManager.LoadScene("Level1");
+    }
+
+    // Tiếp tục checkpoint gần nhất.
+    public void ContinueGame()
+    {
+        Time.timeScale = 1f;
+
+        if (ScoreManager.instance == null)
+        {
+            Debug.LogError(
+                "Không tìm thấy ScoreManager."
+            );
+
             return;
         }
 
         if (!ScoreManager.instance.HasSavedGame())
         {
-            Debug.LogWarning("No saved checkpoint was found.");
-            SceneManager.LoadScene("Level1");
+            Debug.LogWarning(
+                "Chưa có checkpoint để Continue."
+            );
+
             return;
         }
 
@@ -51,15 +121,24 @@ public class GameUIManager : MonoBehaviour
         string savedLevel =
             ScoreManager.instance.GetSavedLevel();
 
+        if (!Application.CanStreamedLevelBeLoaded(
+                savedLevel
+            ))
+        {
+            Debug.LogError(
+                "Không tìm thấy Scene: " +
+                savedLevel
+            );
+
+            return;
+        }
+
         SceneManager.LoadScene(savedLevel);
     }
 
-    // Về Menu nhưng không lưu điểm hiện tại
     public void Menu()
     {
         Time.timeScale = 1f;
-
-        // Không gọi SaveCheckpoint hoặc SaveGame ở đây.
         SceneManager.LoadScene("Menu");
     }
 
@@ -78,6 +157,10 @@ public class GameUIManager : MonoBehaviour
     public void Exit()
     {
         Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     public void TogglePause()
@@ -107,30 +190,5 @@ public class GameUIManager : MonoBehaviour
         {
             guidePanel.SetActive(false);
         }
-    }
-
-    // Tiếp tục từ lần hoàn thành level gần nhất
-    public void ContinueGame()
-    {
-        Time.timeScale = 1f;
-
-        if (ScoreManager.instance == null)
-        {
-            Debug.LogWarning("ScoreManager was not found.");
-            return;
-        }
-
-        if (!ScoreManager.instance.HasSavedGame())
-        {
-            Debug.LogWarning("No saved checkpoint was found.");
-            return;
-        }
-
-        ScoreManager.instance.LoadCheckpoint();
-
-        string savedLevel =
-            ScoreManager.instance.GetSavedLevel();
-
-        SceneManager.LoadScene(savedLevel);
     }
 }
