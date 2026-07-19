@@ -198,6 +198,21 @@ public class PlayerController : MonoBehaviour
     {
         currentEnergy = Mathf.Clamp(currentEnergy + amount, 0, maxEnergy);
     }
+    //Hanh them de mua speed
+    public void BuySpeed()
+    {
+        if (ScoreManager.instance == null)
+        {
+            Debug.LogWarning("Không tìm thấy ScoreManager.");
+            return;
+        }
 
-  
+        if (ScoreManager.instance.SpendPearls(20))
+        {
+            moveSpeed += 3f;
+            Debug.Log("Đã dùng 20 ngọc trai để tăng 3 tốc độ.");
+        }
+    }
+
+
 }

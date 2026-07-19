@@ -64,6 +64,21 @@ public class ScoreManager : MonoBehaviour
 
         UpdateUI();
     }
+    //Hanh them de check khi mua hang
+    public bool SpendPearls(int amount)
+    {
+        if (pearls < amount)
+        {
+            Debug.Log("Không đủ ngọc trai để mua.");
+            return false;
+        }
+
+        pearls -= amount;
+        UpdateUI();
+
+        Debug.Log($"Đã dùng {amount} ngọc trai. Còn lại: {pearls}");
+        return true;
+    }
 
     public void AddKill(int amount = 1)
     {
