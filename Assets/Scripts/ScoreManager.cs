@@ -89,6 +89,12 @@ public class ScoreManager : MonoBehaviour
 
     }
 
+    public void AddOxygenPickup(int amount = 1)
+    {
+        score += amount * 20;   // Mỗi bình oxy = 20 điểm
+        UpdateUI();
+    }
+
     public void SaveCheckpoint(string nextLevelName)
     {
         PlayerPrefs.SetInt(PearlsKey, pearls);
