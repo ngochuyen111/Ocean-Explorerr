@@ -1,27 +1,82 @@
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target;
-    public float smoothSpeed = 5f;
-    public Vector3 offset;
+    [Header("References")]
+    [SerializeField] private Transform target;
+    [SerializeField] private BoxCollider2D levelBounds;
 
-    void LateUpdate()
+    [Header("Follow Settings")]
+    [SerializeField] private float smoothSpeed = 5f;
+    [SerializeField] private Vector3 offset;
+
+    private Camera mainCamera;
+
+    private void Awake()
     {
-        if (target == null) return;
+        mainCamera = GetComponent<Camera>();
+    }
+
+    private void LateUpdate()
+    {
+        if (target == null || levelBounds == null)
+        {
+            return;
+        }
 
         Vector3 desiredPosition = target.position + offset;
 
-        Vector3 smoothedPosition = Vector3.Lerp(
+        // Kích thước một nửa màn hình camera
+        float cameraHalfHeight = mainCamera.orthographicSize;
+        float cameraHalfWidth = cameraHalfHeight * mainCamera.aspect;
+
+        Bounds bounds = levelBounds.bounds;
+
+        // Giới hạn tâm camera để camera không nhìn ra ngoài GameBounds
+        float minCameraX = bounds.min.x + cameraHalfWidth;
+        float maxCameraX = bounds.max.x - cameraHalfWidth;
+
+        float minCameraY = bounds.min.y + cameraHalfHeight;
+        float maxCameraY = bounds.max.y - cameraHalfHeight;
+
+        // Nếu bản đồ nhỏ hơn màn hình thì đặt camera vào giữa
+        if (minCameraX > maxCameraX)
+        {
+            desiredPosition.x = bounds.center.x;
+        }
+        else
+        {
+            desiredPosition.x = Mathf.Clamp(
+                desiredPosition.x,
+                minCameraX,
+                maxCameraX
+            );
+        }
+
+        if (minCameraY > maxCameraY)
+        {
+            desiredPosition.y = bounds.center.y;
+        }
+        else
+        {
+            desiredPosition.y = Mathf.Clamp(
+                desiredPosition.y,
+                minCameraY,
+                maxCameraY
+            );
+        }
+
+        // Giữ nguyên trục Z của camera
+        desiredPosition.z = transform.position.z;
+
+        float smoothAmount =
+            1f - Mathf.Exp(-smoothSpeed * Time.deltaTime);
+
+        transform.position = Vector3.Lerp(
             transform.position,
             desiredPosition,
-            smoothSpeed * Time.deltaTime
-        );
-
-        transform.position = new Vector3(
-            smoothedPosition.x,
-            smoothedPosition.y,
-            transform.position.z
+            smoothAmount
         );
     }
 }

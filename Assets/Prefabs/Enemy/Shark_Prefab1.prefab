@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 8517638343724449778}
   - component: {fileID: 230657333721978705}
   - component: {fileID: 3055280824226889129}
-  - component: {fileID: 4691682741572013877}
   - component: {fileID: 1481258229877505486}
   - component: {fileID: 3774213497457492019}
-  - component: {fileID: 107332239128811894}
+  - component: {fileID: 5462563854117465346}
   m_Layer: 6
   m_Name: Shark_Prefab1
   m_TagString: Enemy
@@ -106,7 +105,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915238522386512391}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -166,52 +165,6 @@ MonoBehaviour:
   maxGlowScale: 1.2
   minGlowAlpha: 0.25
   maxGlowAlpha: 0.8
---- !u!61 &4691682741572013877
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 915238522386512391}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
 --- !u!114 &1481258229877505486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,8 +208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
   rotateAmount: 12
   rotateSpeed: 4
---- !u!61 &107332239128811894
-BoxCollider2D:
+--- !u!60 &5462563854117465346
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -299,8 +252,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.6345549, y: -2.240944}
+      - {x: 2.380149, y: -1.2434218}
+      - {x: 4.5061083, y: -1.6435621}
+      - {x: 4.1675205, y: 0.29160285}
+      - {x: 5.2377195, y: 2.4965758}
+      - {x: 3.1266518, y: 1.7527761}
+      - {x: 0.9508295, y: 3.0425076}
+      - {x: -1.2170715, y: 2.7633495}
+      - {x: -5.148118, y: 0.8594998}
+      - {x: -4.8857, y: -0.1743958}
+      - {x: -2.8251057, y: -1.3582478}
+      - {x: -2.706359, y: -1.5748677}
+      - {x: -1.8871717, y: -1.8728862}
+      - {x: -0.9745724, y: -1.4831933}
+  m_UseDelaunayMesh: 1
 --- !u!1 &1021588248372457621
 GameObject:
   m_ObjectHideFlags: 0

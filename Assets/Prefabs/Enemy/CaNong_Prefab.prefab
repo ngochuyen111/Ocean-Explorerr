@@ -348,10 +348,9 @@ GameObject:
   - component: {fileID: 5314019154495796319}
   - component: {fileID: 2581577845122447441}
   - component: {fileID: 7099818524942297687}
-  - component: {fileID: 4853226691009802236}
   - component: {fileID: 1888737868085938902}
   - component: {fileID: 1594643901457938330}
-  - component: {fileID: 5913572890664471128}
+  - component: {fileID: 2480407956146260530}
   m_Layer: 6
   m_Name: CaNong_Prefab
   m_TagString: Enemy
@@ -502,52 +501,6 @@ MonoBehaviour:
   maxGlowScale: 1.2
   minGlowAlpha: 0.25
   maxGlowAlpha: 0.8
---- !u!61 &4853226691009802236
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9136422921784219121}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
 --- !u!114 &1888737868085938902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -591,8 +544,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
   rotateAmount: 12
   rotateSpeed: 4
---- !u!61 &5913572890664471128
-BoxCollider2D:
+--- !u!60 &2480407956146260530
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -635,5 +588,25 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.9252529, y: -1.0297527}
+      - {x: 1.2463493, y: -0.4055109}
+      - {x: 2.9984016, y: -0.3310218}
+      - {x: 4.617445, y: -1.1063399}
+      - {x: 4.269039, y: 0.5718026}
+      - {x: 5.164692, y: 2.1098647}
+      - {x: 4.5962257, y: 2.3725019}
+      - {x: 3.2632847, y: 1.4809713}
+      - {x: 1.1848087, y: 2.2938929}
+      - {x: 1.0933514, y: 3.5670385}
+      - {x: 0.41653824, y: 3.4412942}
+      - {x: -0.7977295, y: 2.277658}
+      - {x: -4.414385, y: 0.7014904}
+      - {x: -3.6223583, y: -0.37521505}
+      - {x: -3.3948865, y: -1.3150394}
+      - {x: -2.0191553, y: -0.80484974}
+      - {x: -1.8933598, y: -0.75736964}
+      - {x: -1.5471535, y: -0.6728115}
+      - {x: -1.3649602, y: -0.7605347}
+  m_UseDelaunayMesh: 1

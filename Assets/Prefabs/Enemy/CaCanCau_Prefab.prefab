@@ -48,10 +48,9 @@ GameObject:
   - component: {fileID: 7197845827460897974}
   - component: {fileID: 754677573917205294}
   - component: {fileID: 3838155819739960403}
-  - component: {fileID: 3977424745986814944}
   - component: {fileID: 1909248595866803243}
   - component: {fileID: 6532659275062389049}
-  - component: {fileID: 3046561458163638886}
+  - component: {fileID: 3517094612480548676}
   m_Layer: 6
   m_Name: CaCanCau_Prefab
   m_TagString: Enemy
@@ -203,52 +202,6 @@ MonoBehaviour:
   maxGlowScale: 1.2
   minGlowAlpha: 0.25
   maxGlowAlpha: 0.8
---- !u!61 &3977424745986814944
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1469756488609823284}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
 --- !u!114 &1909248595866803243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,8 +245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
   rotateAmount: 12
   rotateSpeed: 4
---- !u!61 &3046561458163638886
-BoxCollider2D:
+--- !u!60 &3517094612480548676
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -336,8 +289,19 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 4.7570076, y: 1.2681444}
+      - {x: 2.7804413, y: 1.2924386}
+      - {x: 1.0272255, y: 2.9244208}
+      - {x: -1.8420658, y: 3.6985552}
+      - {x: -4.205427, y: 2.8433163}
+      - {x: -4.3785725, y: 0.7249172}
+      - {x: -2.6967392, y: -0.7536142}
+      - {x: -1.9461422, y: -2.2970212}
+      - {x: -0.3955326, y: -2.48868}
+      - {x: 4.5292754, y: -1.4567803}
+  m_UseDelaunayMesh: 1
 --- !u!1 &1533039440625057320
 GameObject:
   m_ObjectHideFlags: 0

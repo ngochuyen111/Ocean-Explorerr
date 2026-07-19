@@ -4,15 +4,26 @@ public class SeaHazard : MonoBehaviour
 {
     public float damage = 20f;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!other.CompareTag("Player")) return;
+        DamagePlayer(collision);
+    }
 
-        PlayerHealth health = other.GetComponent<PlayerHealth>();
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        DamagePlayer(collision);
+    }
 
-        if (health != null)
+    private void DamagePlayer(Collision2D collision)
+    {
+        PlayerHealth health =
+            collision.collider.GetComponentInParent<PlayerHealth>();
+
+        if (health == null)
         {
-            health.TakeDamage(damage);
+            return;
         }
+
+        health.TakeDamage(damage);
     }
 }

@@ -141,8 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d52ee98799f5cd6489e79c3eadc94f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TreasurePickup
-  storyPanel: {fileID: 0}
-  storyText: {fileID: 0}
-  storyLine: You found the hidden treasure! The submarine continues deeper into the
-    ocean...
+  storyLine: "B\u1EA1n \u0111\xE3 t\xECm th\u1EA5y kho b\xE1u th\u1EE9 hai!\r\n\r\nT\xEDn
+    hi\u1EC7u b\xED \u1EA9n t\u1EEB v\xF9ng bi\u1EC3n s\xE2u h\u01A1n v\u1EEBa \u0111\u01B0\u1EE3c
+    ph\xE1t hi\u1EC7n.\r\nCu\u1ED9c h\xE0nh tr\xECnh ti\u1EBFp t\u1EE5c..."
   nextSceneName: Level3
