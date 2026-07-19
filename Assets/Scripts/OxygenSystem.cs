@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -54,5 +54,21 @@ public class OxygenSystem : MonoBehaviour
     {
         currentOxygen = Mathf.Clamp(currentOxygen + amount, 0, maxOxygen);
         UpdateUI();
+    }
+
+    //Hanh them de mua oxy
+    public void BuyOxygen()
+    {
+        if (ScoreManager.instance == null)
+        {
+            Debug.LogWarning("Không tìm thấy ScoreManager.");
+            return;
+        }
+
+        if (ScoreManager.instance.SpendPearls(10))
+        {
+            AddOxygen(50f);
+            Debug.Log("Đã mua thêm 50 oxy.");
+        }
     }
 }

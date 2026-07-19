@@ -155,6 +155,27 @@ public class PlayerHealth : MonoBehaviour
             healBarCoroutine = StartCoroutine(SmoothHealthBar(currentHealth));
         }
     }
+    //Hanh them de mua mau
+    public void BuyHealth()
+    {
+        if (ScoreManager.instance == null)
+        {
+            Debug.LogWarning("Không tìm thấy ScoreManager.");
+            return;
+        }
+
+        if (currentHealth >= maxHealth)
+        {
+            Debug.Log("Máu đang đầy, không cần mua.");
+            return;
+        }
+
+        if (ScoreManager.instance.SpendPearls(15))
+        {
+            AddHealth(50f);
+            Debug.Log("Đã dùng 15 ngọc trai để hồi 50 máu.");
+        }
+    }
     void UpdateHealthText()
     {
         if (healthText != null)
