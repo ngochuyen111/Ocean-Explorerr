@@ -20,38 +20,90 @@ public class TreasureManager : MonoBehaviour
     public TreasureTrailArrow treasureTrail;
 
     private GameObject spawnedTreasure;
-    private bool treasureSpawned = false;
+    private bool treasureSpawned;
 
-    void Start()
+    private void Start()
     {
-        if (cameraTransform == null)
+        if (cameraTransform == null && Camera.main != null)
+        {
             cameraTransform = Camera.main.transform;
+        }
 
         if (treasureTrail != null)
+        {
             treasureTrail.gameObject.SetActive(false);
+        }
+
+        ScoreManager[] managers =
+            FindObjectsByType<ScoreManager>(FindObjectsSortMode.None);
+
+        Debug.Log("Số lượng ScoreManager: " + managers.Length);
+
+        if (ScoreManager.instance != null)
+        {
+            Debug.Log(
+                "Scene: " + gameObject.scene.name +
+                " | Pearl: " + ScoreManager.instance.pearls +
+                " | Required: " + pearlsRequired +
+                " | ScoreManager ID: " +
+                ScoreManager.instance.GetInstanceID()
+            );
+        }
     }
 
-    void Update()
+    private void Update()
     {
-        if (treasureSpawned) return;
-        if (ScoreManager.instance == null) return;
+        if (treasureSpawned)
+            return;
 
-        if (ScoreManager.instance.pearls >= pearlsRequired)
+        if (ScoreManager.instance == null)
+            return;
+
+        int currentPearls = ScoreManager.instance.pearls;
+
+        if (currentPearls >= pearlsRequired)
         {
             SpawnTreasure();
         }
     }
 
-    void SpawnTreasure()
+    private void SpawnTreasure()
     {
+        if (treasurePrefab == null)
+        {
+            Debug.LogError("Chưa gán Treasure Prefab.");
+            return;
+        }
+
+        if (cameraTransform == null)
+        {
+            Debug.LogError("Không tìm thấy Main Camera.");
+            return;
+        }
+
+        Debug.LogWarning(
+            "SPAWN TREASURE | Scene: " +
+            gameObject.scene.name +
+            " | Pearl: " +
+            ScoreManager.instance.pearls +
+            " | Required: " +
+            pearlsRequired
+        );
+
         treasureSpawned = true;
 
-        float x = cameraTransform.position.x + Random.Range(spawnAheadMin, spawnAheadMax);
+        float x = cameraTransform.position.x +
+                  Random.Range(spawnAheadMin, spawnAheadMax);
+
         float y = Random.Range(yMin, yMax);
 
-        Vector3 spawnPos = new Vector3(x, y, 0f);
+        Vector3 spawnPosition = new Vector3(x, y, 0f);
 
-        spawnedTreasure = Instantiate(treasurePrefab, spawnPos, Quaternion.identity);
+        spawnedTreasure = Instantiate(
+            treasurePrefab,
+            spawnPosition,
+            Quaternion.identity
+        );
 
         if (treasureTrail != null)
         {
