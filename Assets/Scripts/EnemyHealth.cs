@@ -147,6 +147,11 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayEnemyDeath();
+        }
+
         Debug.Log(gameObject.name + " chết!");
 
         //Hanh

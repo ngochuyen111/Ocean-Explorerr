@@ -40,6 +40,11 @@ public class OceanProjectile : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
+            if (SFXManager.Instance != null)
+            {
+                SFXManager.Instance.PlayBulletHit();
+            }
+
             Debug.Log("Đạn bắn trúng Enemy: " + other.name);
 
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();

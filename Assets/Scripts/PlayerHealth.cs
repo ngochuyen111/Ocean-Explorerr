@@ -99,6 +99,11 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayPlayerHit();
+        }
+
         if (invincible || damage <= 0) return;
         //update level 3
         currentHealth -= damage;
