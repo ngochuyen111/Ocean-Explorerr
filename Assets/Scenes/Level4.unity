@@ -3040,14 +3040,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3753b5c877794924b80302882cf8fb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 7
-  dashForce: 14
+  moveSpeed: 10
+  dashForce: 18
   dashTime: 0.2
   dashCooldown: 1
-  bubbleBulletPrefab: {fileID: 6465575772158885425, guid: 2197798e0104daa4b89211ac58c99744, type: 3}
-  waveSkillPrefab: {fileID: 6465575772158885425, guid: 2197798e0104daa4b89211ac58c99744, type: 3}
+  bubbleBulletPrefab: {fileID: 6465575772158885425, guid: 6e9d437ba6b46c74bb566ebc339cacac, type: 3}
+  waveSkillPrefab: {fileID: 6465575772158885425, guid: 6e9d437ba6b46c74bb566ebc339cacac, type: 3}
   shootPoint: {fileID: 408433238}
-  fireRate: 0.35
+  fireRate: 0.1
   currentEnergy: 0
   maxEnergy: 100
   energyGainPerHit: 10
@@ -3144,7 +3144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b0fd38da86599348a2d66de5a21f9ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 100
+  maxHealth: 150
   currentHealth: 0
   healthSlider: {fileID: 1533993127}
   healthText: {fileID: 1918060912}
