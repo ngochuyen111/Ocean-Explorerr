@@ -1956,7 +1956,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1000, y: 250}
+  m_SizeDelta: {x: 2000, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &769252013
 MonoBehaviour:
@@ -4518,7 +4518,7 @@ MonoBehaviour:
   treasurePrefab: {fileID: 2890072081356485200, guid: f805d9db6f1b829439202edcbd804baa, type: 3}
   player: {fileID: 1474215393}
   cameraTransform: {fileID: 2088082392}
-  pearlsRequired: 10
+  pearlsRequired: 20
   spawnAheadMin: 8
   spawnAheadMax: 18
   yMin: -3
