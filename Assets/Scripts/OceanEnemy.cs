@@ -333,6 +333,11 @@ public class OceanEnemy : MonoBehaviour
 
     void ShootInk()
     {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayInkShoot();
+        }
+
         if (inkProjectilePrefab == null)
         {
             Debug.LogWarning(
@@ -387,6 +392,11 @@ public class OceanEnemy : MonoBehaviour
 
     IEnumerator ChargePlayer()
     {
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayCharge();
+        }
+
         if (player == null)
             yield break;
 

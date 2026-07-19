@@ -28,6 +28,11 @@ public class PearlPickup : MonoBehaviour
         if (collectEffectPrefab != null)
             Instantiate(collectEffectPrefab, transform.position, Quaternion.identity);
 
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayPearlPickup();
+        }
+
         Destroy(gameObject);
     }
 }
