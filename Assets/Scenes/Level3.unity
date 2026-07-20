@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2a3865d48b2314db0420d22c527e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoralSpawner
-  coralHazardPrefab: {fileID: 0}
+  coralHazardPrefab: {fileID: 596175375832575357, guid: 6c27c042e5e7e7442b33a3f0879dae59, type: 3}
   cameraTransform: {fileID: 0}
   spawnAheadDistance: 20
   despawnBehindDistance: 25
@@ -3960,8 +3960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967bc8b2825e6f445b5de29529c040c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryManager
-  storyPanel: {fileID: 0}
-  storyText: {fileID: 0}
+  storyPanel: {fileID: 1867012724}
+  storyText: {fileID: 1626190767}
   displayDuration: 3
 --- !u!4 &1353726471
 Transform:
