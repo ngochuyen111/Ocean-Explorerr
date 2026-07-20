@@ -4421,7 +4421,7 @@ MonoBehaviour:
   warningThreshold: 0.3
   mediumThreshold: 0.5
   oxygenSlider: {fileID: 237432020}
-  oxygenFillImage: {fileID: 0}
+  oxygenFillImage: {fileID: 918780311}
   oxyText: {fileID: 860389905}
   colorSafe: {r: 0.2, g: 0.8, b: 0.9, a: 1}
   colorMedium: {r: 0.95, g: 0.85, b: 0.2, a: 1}
