@@ -51,8 +51,17 @@ public class MusicManager : MonoBehaviour
         bool musicEnabled =
             PlayerPrefs.GetInt("Music", 1) == 1;
 
-        // Chỉ tắt riêng AudioSource của nhạc
         audioSource.mute = !musicEnabled;
+    }
+
+    public void StopAndDestroy()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop();
+        }
+
+        Destroy(gameObject);
     }
 
     private void OnDestroy()

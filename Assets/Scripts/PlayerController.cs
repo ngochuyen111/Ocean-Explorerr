@@ -42,14 +42,20 @@ public class PlayerController : MonoBehaviour
 
         Transform visual = transform.Find("Visual");
 
-        if (visual == null)
+        if (visual != null)
         {
-            Debug.LogError("Không tìm thấy object con tên Visual trong Player!");
-            return;
+            anim = visual.GetComponent<Animator>();
+            sr = visual.GetComponent<SpriteRenderer>();
         }
+        else
+        {
+            anim = GetComponent<Animator>();
+            sr = GetComponent<SpriteRenderer>();
 
-        anim = visual.GetComponent<Animator>();
-        sr = visual.GetComponent<SpriteRenderer>();
+            Debug.LogWarning(
+                "Player không có object con Visual. Đang dùng component trên Player."
+            );
+        }
 
         if (anim == null)
         {

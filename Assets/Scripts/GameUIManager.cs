@@ -33,47 +33,41 @@ public class GameUIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        // Scene mà người chơi đang chơi
-        string currentLevel =
-            SceneManager.GetActiveScene().name;
+        string levelToRestart = PlayerPrefs.GetString(
+            "LastLevel",
+            "Level1"
+        );
+
+        if (!Application.CanStreamedLevelBeLoaded(levelToRestart))
+        {
+            Debug.LogError(
+                "Không tìm thấy scene để Restart: " +
+                levelToRestart
+            );
+
+            return;
+        }
 
         if (ScoreManager.instance != null)
         {
-            // Restart Level 1 thì bắt đầu lại từ đầu
-            if (currentLevel == "Level1")
+            if (levelToRestart == "Level1")
             {
                 ScoreManager.instance.StartNewGame();
             }
-            else
+            else if (
+                ScoreManager.instance.HasSavedGame() &&
+                ScoreManager.instance.GetSavedLevel() == levelToRestart
+            )
             {
-                /*
-                 * Level 2, 3, 4:
-                 * Chỉ khôi phục checkpoint khi checkpoint
-                 * đúng với màn hiện tại.
-                 */
-                if (ScoreManager.instance.HasSavedGame() &&
-                    ScoreManager.instance.GetSavedLevel() == currentLevel)
-                {
-                    ScoreManager.instance.LoadCheckpoint();
-                }
-                else
-                {
-                    Debug.LogWarning(
-                        "Checkpoint không khớp với scene hiện tại." +
-                        "\nCurrent scene: " + currentLevel +
-                        "\nSaved scene: " +
-                        ScoreManager.instance.GetSavedLevel()
-                    );
-                }
+                ScoreManager.instance.LoadCheckpoint();
             }
         }
 
         Debug.Log(
-            "Restart current level: " + currentLevel
+            "Restart level: " + levelToRestart
         );
 
-        // Luôn mở lại đúng màn hiện tại
-        SceneManager.LoadScene(currentLevel);
+        SceneManager.LoadScene(levelToRestart);
     }
 
     // Xóa tiến trình và bắt đầu Level1.
@@ -135,6 +129,12 @@ public class GameUIManager : MonoBehaviour
     public void Menu()
     {
         Time.timeScale = 1f;
+
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.StopAndDestroy();
+        }
+
         SceneManager.LoadScene("Menu");
     }
 

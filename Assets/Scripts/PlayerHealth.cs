@@ -78,7 +78,13 @@ public class PlayerHealth : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Không tìm thấy Visual trong Player!");
+            // Dùng component trên Player nếu không có object con Visual
+            sr = GetComponent<SpriteRenderer>();
+            anim = GetComponent<Animator>();
+
+            Debug.LogWarning(
+                "Player không có object con Visual. Đang tìm SpriteRenderer và Animator trên Player."
+            );
         }
 
         if (sr != null)
@@ -268,10 +274,17 @@ public class PlayerHealth : MonoBehaviour
         savedHealth = 0f;
         savedMaxHealth = 0f;
 
+        string currentLevel =
+            SceneManager.GetActiveScene().name;
+
         PlayerPrefs.SetString(
             "LastLevel",
-            SceneManager.GetActiveScene().name
+            currentLevel
         );
+
+        PlayerPrefs.Save();
+
+        Time.timeScale = 1f;
 
         SceneManager.LoadScene("GameOver");
     }
