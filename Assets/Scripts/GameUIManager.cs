@@ -33,51 +33,47 @@ public class GameUIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
-        if (ScoreManager.instance == null)
+        // Scene mà người chơi đang chơi
+        string currentLevel =
+            SceneManager.GetActiveScene().name;
+
+        if (ScoreManager.instance != null)
         {
-            Debug.LogError(
-                "Không tìm thấy ScoreManager."
-            );
-
-            return;
-        }
-
-        // Nếu chưa có checkpoint thì bắt đầu lại Level1.
-        if (!ScoreManager.instance.HasSavedGame())
-        {
-            ScoreManager.instance.StartNewGame();
-        }
-        else
-        {
-            // Khôi phục pearl, kill và score tại đầu màn.
-            ScoreManager.instance.LoadCheckpoint();
-        }
-
-        // Level và điểm đều lấy từ cùng một checkpoint.
-        string levelToRestart =
-            ScoreManager.instance.GetSavedLevel();
-
-        if (!Application.CanStreamedLevelBeLoaded(
-                levelToRestart
-            ))
-        {
-            Debug.LogError(
-                "Không tìm thấy Scene: " +
-                levelToRestart
-            );
-
-            return;
+            // Restart Level 1 thì bắt đầu lại từ đầu
+            if (currentLevel == "Level1")
+            {
+                ScoreManager.instance.StartNewGame();
+            }
+            else
+            {
+                /*
+                 * Level 2, 3, 4:
+                 * Chỉ khôi phục checkpoint khi checkpoint
+                 * đúng với màn hiện tại.
+                 */
+                if (ScoreManager.instance.HasSavedGame() &&
+                    ScoreManager.instance.GetSavedLevel() == currentLevel)
+                {
+                    ScoreManager.instance.LoadCheckpoint();
+                }
+                else
+                {
+                    Debug.LogWarning(
+                        "Checkpoint không khớp với scene hiện tại." +
+                        "\nCurrent scene: " + currentLevel +
+                        "\nSaved scene: " +
+                        ScoreManager.instance.GetSavedLevel()
+                    );
+                }
+            }
         }
 
         Debug.Log(
-            "Restart checkpoint:" +
-            "\nLevel: " + levelToRestart +
-            "\nPearls: " + ScoreManager.instance.pearls +
-            "\nKills: " + ScoreManager.instance.kills +
-            "\nScore: " + ScoreManager.instance.score
+            "Restart current level: " + currentLevel
         );
 
-        SceneManager.LoadScene(levelToRestart);
+        // Luôn mở lại đúng màn hiện tại
+        SceneManager.LoadScene(currentLevel);
     }
 
     // Xóa tiến trình và bắt đầu Level1.

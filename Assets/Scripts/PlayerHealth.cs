@@ -21,6 +21,10 @@ public class PlayerHealth : MonoBehaviour
     public float flashSmooth = 5f;
     [Header("Bất tử sau khi bị đánh")]
     public float invincibleTime = 1f;
+    [Header("Hiệu ứng nháy đỏ")]
+    public Color hitFlashColor = Color.red;
+    public float redDuration = 0.15f;
+    public float normalDuration = 0.05f;
     [Header("Hồi máu (chạy thanh máu mượt)")]
     public float healBarSpeed = 0.4f; // thời gian (giây) để thanh máu chạy tới giá trị mới
     private bool damaged;
@@ -99,24 +103,50 @@ public class PlayerHealth : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        // Kiểm tra trước, tránh gọi hiệu ứng và âm thanh liên tục
+        if (invincible || damage <= 0f)
+        {
+            return;
+        }
+
+        // Bật ngay để tránh nhận nhiều damage trong cùng một frame
+        invincible = true;
+
         if (SFXManager.Instance != null)
         {
             SFXManager.Instance.PlayPlayerHit();
         }
 
-        if (invincible || damage <= 0) return;
-        //update level 3
         currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
+        currentHealth = Mathf.Clamp(
+            currentHealth,
+            0f,
+            maxHealth
+        );
+
         savedHealth = currentHealth;
         savedMaxHealth = maxHealth;
-        //
+
         damaged = true;
-        if (healthSlider != null) healthSlider.value = currentHealth;
+
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth;
+        }
+
         UpdateHealthText();
-        if (anim != null) anim.SetTrigger("Hurt");
+
+        if (anim != null)
+        {
+            anim.SetTrigger("Hurt");
+        }
+
         StartCoroutine(InvincibleRoutine());
-        if (currentHealth <= 0) Die();
+
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
     }
 
     public void TakeDamageOverTime(float damage)
@@ -197,26 +227,39 @@ public class PlayerHealth : MonoBehaviour
     }
     IEnumerator InvincibleRoutine()
     {
-        invincible = true;
         float elapsed = 0f;
+
         while (elapsed < invincibleTime)
         {
+            // Đổi tàu sang màu đỏ
             if (sr != null)
             {
-                sr.color = Color.red;
+                sr.color = hitFlashColor;
             }
-            yield return new WaitForSeconds(0.1f);
+
+            yield return new WaitForSeconds(redDuration);
+            elapsed += redDuration;
+
+            // Trở về màu ban đầu
             if (sr != null)
             {
                 sr.color = originalColor;
             }
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.2f;
+
+            if (elapsed >= invincibleTime)
+            {
+                break;
+            }
+
+            yield return new WaitForSeconds(normalDuration);
+            elapsed += normalDuration;
         }
+
         if (sr != null)
         {
             sr.color = originalColor;
         }
+
         invincible = false;
     }
     public void Die()

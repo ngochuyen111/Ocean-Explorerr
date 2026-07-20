@@ -101,16 +101,9 @@ GameObject:
   - component: {fileID: 1141491026327922914}
   - component: {fileID: 4210647146691733191}
   - component: {fileID: 7624996983802285819}
-  - component: {fileID: 9049921867613556157}
   - component: {fileID: 3930059429019883720}
-  - component: {fileID: 9073993438511124236}
   - component: {fileID: 1427877202253850357}
-  - component: {fileID: 1972371615165853266}
-  - component: {fileID: 1225869283067615058}
-  - component: {fileID: 1868701348058494453}
-  - component: {fileID: 2121865635781229574}
-  - component: {fileID: 4276887671987543297}
-  - component: {fileID: 3637213799330925160}
+  - component: {fileID: 725060155151607246}
   m_Layer: 6
   m_Name: Shark_Prefab
   m_TagString: Enemy
@@ -201,7 +194,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2180369786339691943}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -232,64 +225,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e798a50c0d3eb914da7fb4129244ab93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OceanEnemy
+  enemyType: 0
   speed: 3
   moveRadiusX: 4
   moveRadiusY: 2.5
   arriveDistance: 0.2
   waitTimeAtPoint: 0.5
   detectRange: 3
-  stopChaseRange: 4.5
   chaseSpeed: 2.5
   contactDamage: 15
   damageCooldown: 1
   pushPlayerForce: 1.5
   knockbackTime: 0.25
---- !u!61 &9049921867613556157
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
+  inkProjectilePrefab: {fileID: 0}
+  inkShootPoint: {fileID: 0}
+  inkAttackRange: 6
+  inkCooldown: 3
+  chargeSpeed: 9
+  chargeTime: 0.5
+  chargeCooldown: 3
+  prepareChargeTime: 0.4
+  lureGlow: {fileID: 0}
+  glowDuration: 2
+  normalDuration: 3
+  glowingDamageMultiplier: 2
+  glowPulseSpeed: 5
+  minGlowScale: 0.7
+  maxGlowScale: 1.2
+  minGlowAlpha: 0.25
+  maxGlowAlpha: 0.8
 --- !u!114 &3930059429019883720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,52 +283,6 @@ MonoBehaviour:
   canRegen: 1
   regenDelay: 0.15
   regenAmountPerSecond: 5
---- !u!61 &9073993438511124236
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
 --- !u!114 &1427877202253850357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,8 +297,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
   rotateAmount: 12
   rotateSpeed: 4
---- !u!61 &1972371615165853266
-BoxCollider2D:
+--- !u!60 &725060155151607246
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -423,142 +341,24 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
---- !u!114 &1225869283067615058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f7a3273d2ca934c9c5a63e4c217f33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
-  rotateAmount: 12
-  rotateSpeed: 4
---- !u!61 &1868701348058494453
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
---- !u!114 &2121865635781229574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f7a3273d2ca934c9c5a63e4c217f33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
-  rotateAmount: 12
-  rotateSpeed: 4
---- !u!61 &4276887671987543297
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.24, y: 10.24}
-    newSize: {x: 1, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5, y: 2}
-  m_EdgeRadius: 0
---- !u!114 &3637213799330925160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2180369786339691943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48f7a3273d2ca934c9c5a63e4c217f33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SharkSwimAnimation
-  rotateAmount: 12
-  rotateSpeed: 4
+  m_Points:
+    m_Paths:
+    - - {x: -5.1423326, y: 0.2689032}
+      - {x: -5.1001663, y: 0.8531342}
+      - {x: -3.2822752, y: 1.8627038}
+      - {x: -1.4252329, y: 2.3869605}
+      - {x: 0.21125317, y: 3.0806732}
+      - {x: 0.8644128, y: 3.0132782}
+      - {x: 0.7317996, y: 1.9375436}
+      - {x: 2.7133584, y: 1.259485}
+      - {x: 4.358902, y: 2.548997}
+      - {x: 5.2940106, y: 2.255693}
+      - {x: 4.147494, y: -0.008763492}
+      - {x: 4.799669, y: -1.4204324}
+      - {x: 2.6430464, y: -1.4505588}
+      - {x: 1.2701416, y: -1.8266118}
+      - {x: -2.271293, y: -1.8811607}
+  m_UseDelaunayMesh: 1
 --- !u!1 &2593391562357766732
 GameObject:
   m_ObjectHideFlags: 0

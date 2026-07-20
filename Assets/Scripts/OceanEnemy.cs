@@ -484,71 +484,71 @@ public class OceanEnemy : MonoBehaviour
 
     // VA CHẠM PLAYER
 
-    void OnCollisionStay2D(
-        Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        DamagePlayer(
-            collision.collider
-        );
+        DamagePlayer(collision.gameObject);
     }
 
-    void OnTriggerStay2D(
-        Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        DamagePlayer(other);
+        DamagePlayer(other.gameObject);
     }
 
-    void DamagePlayer(
-        Collider2D other)
+    private void DamagePlayer(GameObject hitObject)
     {
-        if (!other.CompareTag("Player"))
+        // Tìm Rigidbody2D của Player kể cả collider nằm ở object con
+        Rigidbody2D playerRb =
+            hitObject.GetComponentInParent<Rigidbody2D>();
+
+        if (playerRb == null)
+            return;
+
+        if (!playerRb.CompareTag("Player"))
             return;
 
         if (Time.time < nextDamageTime)
             return;
 
         PlayerHealth playerHealth =
-            other.GetComponent<PlayerHealth>();
+            playerRb.GetComponent<PlayerHealth>();
+
+        if (playerHealth == null)
+        {
+            playerHealth =
+                playerRb.GetComponentInChildren<PlayerHealth>();
+        }
 
         if (playerHealth == null)
             return;
 
-        float finalDamage =
-            contactDamage;
+        float finalDamage = contactDamage;
 
         // Cá cần câu đang sáng gây gấp đôi damage
         if (enemyType == EnemyType.AnglerBoss &&
             isGlowing)
         {
             finalDamage =
-                contactDamage *
-                glowingDamageMultiplier;
+                contactDamage * glowingDamageMultiplier;
         }
 
-        playerHealth.TakeDamage(
-            finalDamage
-        );
+        playerHealth.TakeDamage(finalDamage);
 
-        PushPlayer(other);
+        PushPlayer(playerRb);
 
         nextDamageTime =
             Time.time + damageCooldown;
     }
 
-    void PushPlayer(Collider2D other)
+    private void PushPlayer(Rigidbody2D playerRb)
     {
-        Rigidbody2D playerRb =
-            other.GetComponent<Rigidbody2D>();
-
         if (playerRb == null)
             return;
 
         Vector2 pushDirection =
-            (other.transform.position -
-             transform.position).normalized;
+            ((Vector2)playerRb.transform.position -
+             (Vector2)transform.position).normalized;
 
-        playerRb.linearVelocity =
-            Vector2.zero;
+        playerRb.linearVelocity = Vector2.zero;
 
         playerRb.AddForce(
             pushDirection * pushPlayerForce,

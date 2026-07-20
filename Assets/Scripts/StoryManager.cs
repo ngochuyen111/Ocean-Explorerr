@@ -7,31 +7,94 @@ public class StoryManager : MonoBehaviour
 {
     public static StoryManager Instance;
 
+    [Header("Story UI")]
     public GameObject storyPanel;
     public TextMeshProUGUI storyText;
 
-    void Awake()
+    [Header("Settings")]
+    public float displayDuration = 3f;
+
+    private bool isShowing;
+
+    private void Awake()
     {
+        // Mỗi scene dùng StoryManager của chính scene đó
         Instance = this;
 
         if (storyPanel != null)
+        {
             storyPanel.SetActive(false);
+        }
     }
 
-    public void ShowTreasureStory(string nextSceneName)
+    public void ShowTreasureStory(
+        string storyMessage,
+        string nextSceneName)
     {
-        StartCoroutine(ShowThenLoad(nextSceneName));
+        if (isShowing)
+        {
+            return;
+        }
+
+        if (storyPanel == null || storyText == null)
+        {
+            Debug.LogError(
+                "StoryManager: Chưa gán StoryPanel hoặc StoryText."
+            );
+
+            return;
+        }
+
+        StartCoroutine(
+            ShowThenLoad(
+                storyMessage,
+                nextSceneName
+            )
+        );
     }
 
-    IEnumerator ShowThenLoad(string nextSceneName)
+    private IEnumerator ShowThenLoad(
+        string storyMessage,
+        string nextSceneName)
     {
-        Debug.Log("SHOW STORY START");
+        isShowing = true;
 
+        Debug.Log(
+            "SHOW STORY | Scene: " +
+            SceneManager.GetActiveScene().name
+        );
+
+        storyText.text = storyMessage;
         storyPanel.SetActive(true);
-        storyText.text = "Bạn đã tìm thấy kho báu ẩn giấu!\nMột con đường mới dẫn đến đại dương sâu thẳm đã mở ra...";
 
-        yield return new WaitForSeconds(3f);
+        // Dừng chuyển động game trong lúc hiện nội dung
+        Time.timeScale = 0f;
+
+        // Vẫn đếm thời gian dù Time.timeScale = 0
+        yield return new WaitForSecondsRealtime(
+            displayDuration
+        );
+
+        Time.timeScale = 1f;
+
+        if (string.IsNullOrWhiteSpace(nextSceneName))
+        {
+            Debug.LogError(
+                "StoryManager: Next Scene Name đang trống."
+            );
+
+            isShowing = false;
+            yield break;
+        }
 
         SceneManager.LoadScene(nextSceneName);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
